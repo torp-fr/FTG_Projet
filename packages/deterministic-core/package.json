@@ -1,0 +1,17 @@
+{
+  "name": "@ftg/deterministic-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Moteur de simulation financière déterministe (Chantier 5) — prévisionnel 3 ans, seuil de rentabilité, comparateur de statuts juridiques (micro / société IS / EI réel). Partagé par les futurs engines E7 (Structure juridique) et E8 (Fiscal).",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^22.0.0"
+  }
+}

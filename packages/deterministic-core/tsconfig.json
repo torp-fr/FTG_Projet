@@ -1,0 +1,23 @@
+{
+  // Pattern engine-sdk/orchestrator : NodeNext + strict + types:["node"], sans rootDir.
+  //
+  // Écart assumé vs le pattern (documenté ici pour ne pas être silencieux) :
+  //   Le runner de test `node --experimental-strip-types` (Node 22) NE remappe PAS les
+  //   imports relatifs ".js" vers les fichiers ".ts" réels — un import "./x.js" échoue
+  //   en ERR_MODULE_NOT_FOUND à l'exécution. On importe donc les modules internes avec
+  //   leur extension ".ts" explicite, ce qui impose côté tsc `allowImportingTsExtensions`
+  //   (lui-même conditionné à `noEmit`). Ce moteur est pur et consommé EN SOURCE par les
+  //   engines (E7/E8) ; aucun artefact de build n'est émis depuis ce package.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

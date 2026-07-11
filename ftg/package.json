@@ -1,0 +1,17 @@
+{
+  "name": "ftg",
+  "private": true,
+  "description": "FTG — Found The Grow. Incubateur IA d'exécution entrepreneuriale (monorepo).",
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:porteur": "pnpm --filter @ftg/porteur dev",
+    "dev:cockpit-b2b": "pnpm --filter @ftg/cockpit-b2b dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

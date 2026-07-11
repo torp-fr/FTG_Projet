@@ -1,0 +1,20 @@
+{
+  "name": "@ftg/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Orchestrateur FTG : Sequencer, Router, Diffuser, Gatekeeper, Supervisor (Chantier 4 §4).",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^22.0.0"
+  }
+}

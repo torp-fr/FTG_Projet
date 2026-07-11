@@ -1,0 +1,101 @@
+{
+  "note": "Condensé structuré des 8 fiches segment du Chantier 2 §B2, au format config du schéma segments.config (Chantier 2 §B1). Les libellés longs (pièges, sources prioritaires) restent en langage naturel dans les sous-champs prévus à cet effet — l'orchestrateur les injecte tels quels dans le contexte agent (Router, Chantier 4 §4).",
+  "segments": [
+    {
+      "code": "S1",
+      "name": "E-commerce / produit physique",
+      "sub_segments": ["boutique en ligne mono/multi-produits", "marque DNVB", "revente/négoce", "print-on-demand", "artisanat vendu en ligne"],
+      "vocabulary": ["SKU", "marge brute unitaire", "AOV", "taux de conversion", "coût logistique", "MOQ fournisseur"],
+      "sources_prioritaires": ["insee_sirene", "dataforseo_reviews", "annuaire_fournisseurs_b2b", "barèmes_transport_douane"],
+      "p7_branch": "physical",
+      "board": {"lead": "Agent Sourcing", "second": "Agent Acquisition", "members": ["Agent Études marché", "Agent Marque", "Agent Boutique (tech)", "Agent Finance"]},
+      "scoring_overrides": {"g7_v5_weight_boost": true, "g3_requires_behavioral_proof": true},
+      "ambition_reading": {"complement": "print-on-demand/négoce léger sans stock", "independance": "marque mono-produit maîtrisée", "croissance": "catalogue + multi-canal", "scale": "DNVB, volume, distribution"},
+      "known_pitfalls": ["marge calculée sans coûts cachés", "stock initial surdimensionné", "dépendance canal payant unique", "produit sans différenciation"]
+    },
+    {
+      "code": "S2",
+      "name": "SaaS / application / produit digital",
+      "sub_segments": ["SaaS B2B/B2C", "application mobile", "extension/plugin", "outil no-code productisé", "API"],
+      "vocabulary": ["MRR/ARR", "churn", "activation", "CAC/LTV", "freemium vs trial"],
+      "sources_prioritaires": ["annuaires_logiciels_avis", "dataforseo_trends", "communautes_dev"],
+      "p7_branch": "digital",
+      "board": {"lead": "Agent Tech Lead", "second": "Agent Produit", "members": ["Agent Études", "Agent Growth", "Agent Légal/RGPD", "Agent Finance"]},
+      "scoring_overrides": {"v6_reinforced": true, "p7_j6_means": "transaction récurrente test"},
+      "ambition_reading": {"complement": "micro-outil de niche automatisé", "independance": "SaaS de niche rentable", "croissance": "équipe + produit étendu", "scale": "traction/levée, métriques investisseurs"},
+      "known_pitfalls": ["sur-engineering du MVP", "construire avant de valider", "sous-estimer CAC B2C", "onboarding négligé"]
+    },
+    {
+      "code": "S3",
+      "name": "Service B2B / conseil / agence",
+      "sub_segments": ["conseil", "agence", "prestation intellectuelle", "externalisation"],
+      "vocabulary": ["TJM/forfait", "taux d'occupation", "cycle de vente", "comptes cibles"],
+      "sources_prioritaires": ["annuaire_entreprises_datagouv", "pappers", "marches_publics"],
+      "p7_branch": "service",
+      "board": {"lead": "Agent Positionnement", "second": "Agent Prospection", "members": ["Agent Offre & Pricing", "Agent Sales coach", "Agent Légal contrats"]},
+      "scoring_overrides": {"g8_pipeline_threshold": 10},
+      "ambition_reading": {"complement": "missions ponctuelles", "independance": "portefeuille stable", "croissance": "agence avec équipe", "scale": "productisation du service"},
+      "known_pitfalls": ["offre je-fais-tout", "prix au rabais par peur", "dépendance 1-2 clients", "absence de contrat cadre"]
+    },
+    {
+      "code": "S4",
+      "name": "Artisanat / services techniques",
+      "sub_segments": ["bâtiment second œuvre", "réparation", "fabrication", "installation", "entretien"],
+      "vocabulary": ["devis/chantier/intervention", "taux horaire + fournitures", "zone d'intervention"],
+      "sources_prioritaires": ["registres_qualifications", "organismes_profession", "baremes_prix_locaux"],
+      "p7_branch": "service",
+      "board": {"lead": "Agent Conformité métier", "second": "Agent Implantation locale", "members": ["Agent Pricing", "Agent Visibilité locale", "Agent Finance"]},
+      "scoring_overrides": {"g5_v6_floor": 75, "assurance_qualification_hard_dependency": true},
+      "ambition_reading": {"complement": "interventions ciblées", "independance": "carnet plein solo", "croissance": "embauche + véhicules", "scale": "réseau/franchise"},
+      "known_pitfalls": ["sous-tarification", "démarrage sans assurance conforme", "dépendance plateformes de mise en relation"]
+    },
+    {
+      "code": "S5",
+      "name": "Commerce local / restauration",
+      "sub_segments": ["boutique physique", "restauration", "services de proximité avec local"],
+      "vocabulary": ["emplacement", "flux", "ticket moyen", "zone de chalandise", "bail commercial", "saisonnalité locale"],
+      "sources_prioritaires": ["ban", "insee_donnees_locales", "dvf", "dataforseo_business_data"],
+      "p7_branch": "physical",
+      "board": {"lead": "Agent Implantation", "second": "Agent Finance", "members": ["Agent Concept & offre", "Agent Conformité", "Agent Visibilité locale"]},
+      "scoring_overrides": {"g2_emplacement_critere_majeur": true, "v5_stress_test_loyer_saisonnalite": true},
+      "ambition_reading": {"complement": "rare ici (capital engagé) — signalé factuellement dès P0", "independance": "un point rentable", "croissance": "2-3 points", "scale": "réseau"},
+      "known_pitfalls": ["emplacement choisi à l'affect", "sous-capitalisation des travaux", "bail signé sans négociation", "point mort jamais calculé par scénario"]
+    },
+    {
+      "code": "S6",
+      "name": "Freelance / indépendant",
+      "sub_segments": ["dev", "design", "rédaction", "coaching", "formation", "assistanat", "expertise"],
+      "vocabulary": ["TJM", "portfolio", "plateformes vs direct", "personal branding", "récurrence client"],
+      "sources_prioritaires": ["baremes_tjm", "plateformes_freelancing", "communautes_metier"],
+      "p7_branch": "service",
+      "board": {"lead": "Agent Positionnement", "second": "Agent Prospection", "members": ["Agent Portfolio", "Agent Pricing"]},
+      "scoring_overrides": {"g2_g3_thresholds_relaxed": true, "v2_regularite_prospection_surveille": true},
+      "ambition_reading": {"complement": "missions à côté", "independance": "temps plein choisi", "croissance": "collectif/sous-traitance", "scale": "bascule vers agence (S3)"},
+      "known_pitfalls": ["positionnement généraliste", "arrêt prospection dès mission tombée", "dépendance plateforme unique", "TJM jamais réévalué"]
+    },
+    {
+      "code": "S7",
+      "name": "Marketplace / plateforme",
+      "sub_segments": ["place de marché biens/services", "plateforme de mise en relation", "commission ou abonnement double face"],
+      "vocabulary": ["double face offre/demande", "liquidité", "take rate", "poule-et-œuf", "masse critique"],
+      "sources_prioritaires": ["plateformes_comparables_take_rate", "communautes_deux_faces"],
+      "p7_branch": "digital",
+      "board": {"lead": "Agent Stratégie plateforme", "second": "Agent Finance", "members": ["Agent Face Offre", "Agent Face Demande", "Agent Tech"]},
+      "scoring_overrides": {"g3_requires_both_faces": true, "v5_double_amorcage_cost": true},
+      "ambition_reading": {"structural_note": "le modèle exige structurellement Croissance/Scale — présenté factuellement en P0/P1 avec alternative de démarrer en S3/S6 mono-face"},
+      "known_pitfalls": ["construire la plateforme avant la liquidité", "take rate irréaliste", "deux faces attaquées en même temps sur périmètre trop large"]
+    },
+    {
+      "code": "S8",
+      "name": "Créateur / contenu / communauté",
+      "sub_segments": ["créateur de contenu monétisé", "newsletter", "communauté payante", "produits numériques éducatifs", "médias de niche"],
+      "vocabulary": ["audience", "engagement", "monétisation multi-flux", "propriété d'audience (email)", "calendrier éditorial"],
+      "sources_prioritaires": ["donnees_audience_plateformes", "benchmarks_engagement_createurs"],
+      "p7_branch": "digital",
+      "board": {"lead": "Agent Ligne éditoriale", "second": "Agent Monétisation", "members": ["Agent Audience", "Agent Conformité commerciale"]},
+      "scoring_overrides": {"devils_advocate_reinforced_on_promises": true, "v6_strict": true},
+      "ambition_reading": {"complement": "monétisation d'une passion", "independance": "média de niche rentable", "croissance": "équipe éditoriale", "scale": "média/marque"},
+      "known_pitfalls": ["audience louée jamais possédée", "mono-monétisation", "promesses de résultat non tenables", "irrégularité de publication"]
+    }
+  ]
+}

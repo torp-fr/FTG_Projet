@@ -1,0 +1,1 @@
+-- Seed généré automatiquement depuis supabase/seed/*.json (scripts/lot1/generate_seed_sql.py)

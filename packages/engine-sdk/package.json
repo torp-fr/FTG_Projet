@@ -1,0 +1,16 @@
+{
+  "name": "@ftg/engine-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Contrat d'engine FTG : enveloppes d'entrée/sortie standard + garanties comportementales (Chantier 4 §3).",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test test/*.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

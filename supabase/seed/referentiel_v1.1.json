@@ -1,0 +1,1627 @@
+{
+  "semver": "1.1.0",
+  "status": "active",
+  "changelog": "V1.1 : intègre le DAG (Amendement A2), les 2 portes d'entrée dont P0-J0 (Amendement A3), la neutralité factuelle orientée solutions dans le nommage des verdicts (D25).",
+  "phases": [
+    {
+      "code": "P0",
+      "name": "Le Porteur",
+      "order_hint": 0,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P1",
+      "name": "Idéation",
+      "order_hint": 1,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P2",
+      "name": "Exploration marché",
+      "order_hint": 2,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P3",
+      "name": "Preuves de demande",
+      "order_hint": 3,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P4",
+      "name": "Modèle économique",
+      "order_hint": 4,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P5",
+      "name": "Structuration",
+      "order_hint": 5,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P6",
+      "name": "Identité & marque",
+      "order_hint": 6,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P7",
+      "name": "Build",
+      "order_hint": 7,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P8",
+      "name": "Go-to-Market",
+      "order_hint": 8,
+      "entry_door_variant": "both"
+    },
+    {
+      "code": "P9",
+      "name": "Première vente & bilan",
+      "order_hint": 9,
+      "entry_door_variant": "both"
+    }
+  ],
+  "milestones": [
+    {
+      "code": "P0-J0",
+      "name": "Intake idée (Porte A)",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P0-J1",
+      "name": "Profil fondateur complété",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P0-J2",
+      "name": "Mantra & objectifs internes",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P0-J3",
+      "name": "Capacité d'engagement quantifiée",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P0-J4",
+      "name": "Profil d'incarnation généré et compris",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": true
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P0-J5",
+      "name": "Charte d'engagement FTG signée",
+      "phase": "P0",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": true
+    },
+    {
+      "code": "P1-J1",
+      "name": "Terrain de chasse cadré",
+      "phase": "P1",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J2",
+      "name": "Portefeuille d'idées constitué",
+      "phase": "P1",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J3",
+      "name": "Tour 1 : élimination par critères durs",
+      "phase": "P1",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J4",
+      "name": "Challenge multi-dimensions des survivantes",
+      "phase": "P1",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J5",
+      "name": "Scoring de pré-faisabilité",
+      "phase": "P1",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J6",
+      "name": "Matching incarnation",
+      "phase": "P1",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P1-J7",
+      "name": "Sélection argumentée",
+      "phase": "P1",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J1",
+      "name": "Périmètre d'étude défini",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J2",
+      "name": "Taille & tendance du marché",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J3",
+      "name": "Cartographie concurrentielle",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J4",
+      "name": "Mining des douleurs clients",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J5",
+      "name": "Segmentation & persona v1",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J6",
+      "name": "Positionnement différenciant",
+      "phase": "P2",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J7",
+      "name": "Rapport d'étude de marché assemblé",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P2-J8",
+      "name": "Verdict d'attractivité",
+      "phase": "P2",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J1",
+      "name": "Hypothèses critiques formalisées",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J2",
+      "name": "Plan de preuve composite",
+      "phase": "P3",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J3",
+      "name": "Preuves online exécutées",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J4",
+      "name": "Preuve comportementale exécutée",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J5",
+      "name": "Entretiens (pondéré)",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J6",
+      "name": "Score de preuve composite calculé",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P3-J7",
+      "name": "Verdict de validation",
+      "phase": "P3",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J1",
+      "name": "3 voies de business model",
+      "phase": "P4",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J2",
+      "name": "Modèle arbitré",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J3",
+      "name": "Pricing v1",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J4",
+      "name": "Structure de coûts & coût de revient",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J5",
+      "name": "Prévisionnel 3 ans (moteur déterministe)",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J6",
+      "name": "Seuil de rentabilité & besoin de financement",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J7",
+      "name": "Plan de financement (information)",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P4-J8",
+      "name": "Stress test",
+      "phase": "P4",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J1",
+      "name": "Comparateur de statuts chiffré",
+      "phase": "P5",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J2",
+      "name": "Choix arbitré + checkpoint professionnel",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J3",
+      "name": "Compréhension de l'imposition",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": true
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J4",
+      "name": "Checklist réglementaire sectorielle",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J5",
+      "name": "Immatriculation guidée",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": true
+    },
+    {
+      "code": "P5-J6",
+      "name": "Assurances en place",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J7",
+      "name": "Kit contractuel & conformité",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P5-J8",
+      "name": "Socle administratif",
+      "phase": "P5",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P6-J1",
+      "name": "Plateforme de marque",
+      "phase": "P6",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P6-J2",
+      "name": "Naming : shortlist vérifiée",
+      "phase": "P6",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P6-J3",
+      "name": "Nom choisi & sécurisé",
+      "phase": "P6",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": true
+    },
+    {
+      "code": "P6-J4",
+      "name": "Identité visuelle",
+      "phase": "P6",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P6-J5",
+      "name": "Kit de marque livré",
+      "phase": "P6",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P6-J6",
+      "name": "Pitch & messages clés",
+      "phase": "P6",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P7-J1",
+      "name": "Contrat de scope MVP",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P7-J2",
+      "name": "Specs / cahier de production",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P7-J3a",
+      "name": "Build assisté",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "digital",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J4a",
+      "name": "Recette",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "digital",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J5a",
+      "name": "Mise en ligne",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": "digital",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J3b",
+      "name": "Sourcing structuré",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": "physical",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J4b",
+      "name": "Échantillons & qualité",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": "physical",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J5b",
+      "name": "Coût de revient final & logistique",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "physical",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J3c",
+      "name": "Offre packagée",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "service",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J4c",
+      "name": "Supports de vente",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "service",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J5c",
+      "name": "Capacité de production validée",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": "service",
+      "irreversible": false
+    },
+    {
+      "code": "P7-J6",
+      "name": "Parcours d'achat bout-en-bout",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": true
+    },
+    {
+      "code": "P7-J7",
+      "name": "Outillage opérationnel",
+      "phase": "P7",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J1",
+      "name": "Stratégie GTM 3 voies",
+      "phase": "P8",
+      "flags": {
+        "three_ways": true,
+        "devils_advocate": true,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J2",
+      "name": "Plan d'action 30-60-90",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J3",
+      "name": "Assets d'acquisition produits",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J4",
+      "name": "Actions lancées",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J5",
+      "name": "Pipeline actif",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J6",
+      "name": "Coaching objections & itération du discours",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P8-J7",
+      "name": "Boucle de mesure hebdo",
+      "phase": "P8",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P9-J1",
+      "name": "Première vente encaissée",
+      "phase": "P9",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": true,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": true
+    },
+    {
+      "code": "P9-J2",
+      "name": "Bilan de lancement",
+      "phase": "P9",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P9-J3",
+      "name": "Retour client n°1",
+      "phase": "P9",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P9-J4",
+      "name": "Boucle d'itération",
+      "phase": "P9",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    },
+    {
+      "code": "P9-J5",
+      "name": "Certificat FTG & bascule",
+      "phase": "P9",
+      "flags": {
+        "three_ways": false,
+        "devils_advocate": false,
+        "external_proof": false,
+        "pedagogy_quiz": false
+      },
+      "branch": null,
+      "irreversible": false
+    }
+  ],
+  "milestone_dependencies": [
+    {
+      "milestone": "P0-J1",
+      "depends_on": "P0-J0",
+      "hardness": "soft"
+    },
+    {
+      "milestone": "P0-J2",
+      "depends_on": "P0-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P0-J3",
+      "depends_on": "P0-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P0-J3",
+      "depends_on": "P0-J2",
+      "hardness": "soft"
+    },
+    {
+      "milestone": "P0-J4",
+      "depends_on": "P0-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P0-J4",
+      "depends_on": "P0-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P0-J4",
+      "depends_on": "P0-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P0-J5",
+      "depends_on": "P0-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J1",
+      "depends_on": "P0-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J2",
+      "depends_on": "P1-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J3",
+      "depends_on": "P1-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J4",
+      "depends_on": "P1-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J5",
+      "depends_on": "P1-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J6",
+      "depends_on": "P1-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J6",
+      "depends_on": "P1-J4",
+      "hardness": "soft"
+    },
+    {
+      "milestone": "P1-J7",
+      "depends_on": "P1-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P1-J7",
+      "depends_on": "P1-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J1",
+      "depends_on": "P1-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J2",
+      "depends_on": "P2-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J3",
+      "depends_on": "P2-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J4",
+      "depends_on": "P2-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J5",
+      "depends_on": "P2-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J6",
+      "depends_on": "P2-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J7",
+      "depends_on": "P2-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P2-J8",
+      "depends_on": "P2-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J1",
+      "depends_on": "P2-J8",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J2",
+      "depends_on": "P3-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J3",
+      "depends_on": "P3-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J4",
+      "depends_on": "P3-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J5",
+      "depends_on": "P3-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J6",
+      "depends_on": "P3-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P3-J7",
+      "depends_on": "P3-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J1",
+      "depends_on": "P3-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J2",
+      "depends_on": "P4-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J3",
+      "depends_on": "P4-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J4",
+      "depends_on": "P4-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J5",
+      "depends_on": "P4-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J6",
+      "depends_on": "P4-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J7",
+      "depends_on": "P4-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P4-J8",
+      "depends_on": "P4-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J1",
+      "depends_on": "P4-J8",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J2",
+      "depends_on": "P5-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J3",
+      "depends_on": "P5-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J4",
+      "depends_on": "P5-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J5",
+      "depends_on": "P5-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J6",
+      "depends_on": "P5-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J7",
+      "depends_on": "P5-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P5-J8",
+      "depends_on": "P5-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J1",
+      "depends_on": "P5-J8",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J2",
+      "depends_on": "P6-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J3",
+      "depends_on": "P6-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J4",
+      "depends_on": "P6-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J5",
+      "depends_on": "P6-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P6-J6",
+      "depends_on": "P6-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J1",
+      "depends_on": "P6-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J2",
+      "depends_on": "P7-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J3a",
+      "depends_on": "P7-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J4a",
+      "depends_on": "P7-J3a",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J5a",
+      "depends_on": "P7-J4a",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J3b",
+      "depends_on": "P7-J5a",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J4b",
+      "depends_on": "P7-J3b",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J5b",
+      "depends_on": "P7-J4b",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J3c",
+      "depends_on": "P7-J5b",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J4c",
+      "depends_on": "P7-J3c",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J5c",
+      "depends_on": "P7-J4c",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J6",
+      "depends_on": "P7-J5c",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P7-J7",
+      "depends_on": "P7-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J1",
+      "depends_on": "P7-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J2",
+      "depends_on": "P8-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J3",
+      "depends_on": "P8-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J4",
+      "depends_on": "P8-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J5",
+      "depends_on": "P8-J4",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J6",
+      "depends_on": "P8-J5",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P8-J7",
+      "depends_on": "P8-J6",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P9-J1",
+      "depends_on": "P8-J7",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P9-J2",
+      "depends_on": "P9-J1",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P9-J3",
+      "depends_on": "P9-J2",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P9-J4",
+      "depends_on": "P9-J3",
+      "hardness": "hard"
+    },
+    {
+      "milestone": "P9-J5",
+      "depends_on": "P9-J4",
+      "hardness": "hard"
+    }
+  ],
+  "gates": [
+    {
+      "code": "G0",
+      "name": "Le Porteur",
+      "phase": "P0",
+      "weights": {
+        "V2": 60,
+        "V3": 40
+      },
+      "threshold": 65,
+      "critical_floors": {
+        "V2": 50
+      },
+      "verdict_policy": {
+        "pivot_enabled": false,
+        "arret_enabled": false,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G1",
+      "name": "Idéation",
+      "phase": "P1",
+      "weights": {
+        "V1": 20,
+        "V2": 15,
+        "V3": 30,
+        "V4": 35
+      },
+      "threshold": 60,
+      "critical_floors": {
+        "V3": 50
+      },
+      "verdict_policy": {
+        "pivot_enabled": false,
+        "arret_enabled": false,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G2",
+      "name": "Exploration marché",
+      "phase": "P2",
+      "weights": {
+        "V1": 25,
+        "V2": 10,
+        "V3": 10,
+        "V4": 55
+      },
+      "threshold": 62,
+      "critical_floors": {
+        "V4": 50
+      },
+      "verdict_policy": {
+        "pivot_enabled": true,
+        "arret_enabled": false,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G3",
+      "name": "Preuves de demande",
+      "phase": "P3",
+      "weights": {
+        "V1": 20,
+        "V2": 20,
+        "V4": 60
+      },
+      "threshold": 65,
+      "critical_floors": {
+        "V4": 55
+      },
+      "verdict_policy": {
+        "pivot_enabled": true,
+        "arret_enabled": true,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G4",
+      "name": "Modèle économique",
+      "phase": "P4",
+      "weights": {
+        "V1": 20,
+        "V2": 10,
+        "V4": 15,
+        "V5": 55
+      },
+      "threshold": 62,
+      "critical_floors": {
+        "V5": 50
+      },
+      "verdict_policy": {
+        "pivot_enabled": true,
+        "arret_enabled": true,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G5",
+      "name": "Structuration",
+      "phase": "P5",
+      "weights": {
+        "V1": 20,
+        "V2": 25,
+        "V6": 55
+      },
+      "threshold": 70,
+      "critical_floors": {
+        "V6": 65
+      },
+      "verdict_policy": {
+        "pivot_enabled": false,
+        "arret_enabled": true,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G6",
+      "name": "Identité & marque",
+      "phase": "P6",
+      "weights": {
+        "V1": 60,
+        "V2": 15,
+        "V3": 25
+      },
+      "threshold": 60,
+      "critical_floors": {},
+      "verdict_policy": {
+        "pivot_enabled": false,
+        "arret_enabled": false,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G7",
+      "name": "Build",
+      "phase": "P7",
+      "weights": {
+        "V1": 45,
+        "V2": 20,
+        "V5": 20,
+        "V6": 15
+      },
+      "threshold": 65,
+      "critical_floors": {},
+      "verdict_policy": {
+        "pivot_enabled": false,
+        "arret_enabled": true,
+        "max_reserves": 3,
+        "mandatory_milestone": "P7-J6"
+      }
+    },
+    {
+      "code": "G8",
+      "name": "Go-to-Market",
+      "phase": "P8",
+      "weights": {
+        "V1": 25,
+        "V2": 35,
+        "V3": 15,
+        "V4": 25
+      },
+      "threshold": 62,
+      "critical_floors": {
+        "V2": 55
+      },
+      "verdict_policy": {
+        "pivot_enabled": true,
+        "arret_enabled": true,
+        "max_reserves": 3
+      }
+    },
+    {
+      "code": "G9",
+      "name": "Première vente",
+      "phase": "P9",
+      "weights": {},
+      "threshold": 0,
+      "critical_floors": {},
+      "verdict_policy": {
+        "binary_proof": "P9-J1",
+        "note": "gate binaire — verdict = preuve P9-J1 vérifiée, pas de score composite"
+      }
+    }
+  ]
+}

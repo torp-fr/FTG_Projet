@@ -1,0 +1,19 @@
+{
+  "name": "@ftg/database",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Client Supabase typé — types générés depuis le schéma réel (ftg-plateforme).",
+  "type": "module",
+  "main": "src/client.ts",
+  "types": "src/client.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "regen-types": "supabase gen types typescript --project-id zhkrpnjfqrrtfuddqznt > src/types.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

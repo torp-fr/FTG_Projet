@@ -1,19 +1,30 @@
+# Env & secrets
 .env
 .env.local
 .env.*.local
 *.pem
 *.key
 supabase/.temp/
+
+# Dependencies
 node_modules/
 .pnpm-store/
+
+# Build outputs
 .next/
 dist/
 build/
 out/
+
+# Vercel
 .vercel
+
+# OS / editors
 .DS_Store
 .idea/
 .vscode/
+
+# Logs
 *.log
 npm-debug.log*
 pnpm-debug.log*

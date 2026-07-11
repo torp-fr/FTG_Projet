@@ -1,0 +1,43 @@
+{
+  "note": "Registre des sources — Chantier 3 §2, condensé au format de la table data_sources (migration 006). Un seul niveau waterfall par défaut est indiqué ; les engines peuvent l'ajuster contextuellement.",
+  "data_sources": [
+    {"code":"insee_sirene","name":"API Sirene (INSEE)","type":"entreprises","licence":"open licence / etalab","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4","E5"],"priority":"P1","notes":"~25M entreprises, 36M établissements, MAJ quotidienne. Vérification SIRET P5-J5."},
+    {"code":"annuaire_entreprises_datagouv","name":"Annuaire des Entreprises (data.gouv)","type":"entreprises","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4","E5"],"priority":"P1"},
+    {"code":"sirene_stock_datagouv","name":"Fichiers stock Sirene (data.gouv)","type":"entreprises","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E4"],"priority":"P1","notes":"Batch interne, analyses de masse."},
+    {"code":"pappers","name":"API Pappers","type":"entreprises","licence":"CGU commerciales","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E5"],"priority":"P2","notes":"100 crédits gratuits à l'ouverture ; 1 crédit ≈ 1 fiche entreprise."},
+    {"code":"bodacc","name":"BODACC (open data)","type":"entreprises","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E5"],"priority":"P1","notes":"Créations, ventes, procédures collectives."},
+    {"code":"infogreffe","name":"Infogreffe","type":"entreprises","licence":"commerciale","cost_model":"per_act","activation_status":"inactive","waterfall_level_default":3,"engines_consumers":[],"priority":"P4","notes":"Kbis ~3,20€ — renvoi utilisateur uniquement."},
+
+    {"code":"inpi_data","name":"DATA INPI + API PI","type":"naming","licence":"open (compte requis)","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1","notes":"Marques FR/UE/internationales. Résultats indicatifs, disclaimer requis."},
+    {"code":"inpi_rne","name":"API RNE (INPI)","type":"naming","licence":"open (compte requis)","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1","notes":"Vérification disponibilité dénomination sociale (P6-J2)."},
+    {"code":"tmview","name":"TMview (EUIPO)","type":"naming","licence":"open","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1"},
+    {"code":"rdap_domains","name":"RDAP / registrars","type":"naming","licence":"open","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1"},
+    {"code":"social_handles_check","name":"Vérification handles réseaux sociaux","type":"naming","licence":"n/a","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1"},
+
+    {"code":"dataforseo_keywords","name":"DataForSEO Keywords Data","type":"demande","licence":"CGU commerciales","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4","E3"],"priority":"P2","notes":"1$ de crédit d'essai. Volumes de recherche."},
+    {"code":"dataforseo_labs","name":"DataForSEO Labs / SERP / Trends","type":"demande","licence":"CGU commerciales","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E4","E5"],"priority":"P2"},
+    {"code":"dataforseo_reviews","name":"DataForSEO Reviews","type":"demande","licence":"CGU commerciales","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E4"],"priority":"P2","notes":"Mining des douleurs P2-J4."},
+    {"code":"google_trends","name":"Google Trends","type":"demande","licence":"gratuit non-contractuel","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4"],"priority":"P1"},
+    {"code":"communautes_reddit_forums","name":"Communautés (Reddit, forums FR)","type":"demande","licence":"tier gratuit limité","cost_model":"free","activation_status":"v1_free","waterfall_level_default":3,"engines_consumers":["E4"],"priority":"P3"},
+    {"code":"insee_statistiques","name":"INSEE statistiques (BDM, recensement)","type":"demande","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4"],"priority":"P1"},
+
+    {"code":"perplexity_sonar","name":"Perplexity Sonar API","type":"recherche_experte","licence":"commerciale","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E4","E5","E6"],"priority":"P2","notes":"Étages waterfall 2-3, citations incluses."},
+    {"code":"perplexity_sonar_deep","name":"Sonar Deep Research","type":"recherche_experte","licence":"commerciale","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":3,"engines_consumers":["E4"],"priority":"P3","notes":"Réservé aux jalons de recherche profonde, routé jamais par défaut."},
+    {"code":"etudes_sectorielles_premium","name":"Études sectorielles premium (type Xerfi)","type":"recherche_experte","licence":"commerciale","cost_model":"per_act","activation_status":"inactive","waterfall_level_default":3,"engines_consumers":["E4"],"priority":"P4"},
+
+    {"code":"ban","name":"BAN (Base Adresse Nationale)","type":"local","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4"],"priority":"P1"},
+    {"code":"insee_donnees_locales","name":"INSEE données locales (BPE, carroyage)","type":"local","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4"],"priority":"P1"},
+    {"code":"dvf","name":"DVF (demandes de valeurs foncières)","type":"local","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E4"],"priority":"P1"},
+    {"code":"dataforseo_business_data","name":"DataForSEO Business Data (Maps/Business)","type":"local","licence":"CGU commerciales","cost_model":"pay_as_you_go","activation_status":"v1_free","waterfall_level_default":2,"engines_consumers":["E5"],"priority":"P2"},
+
+    {"code":"legifrance_piste","name":"Légifrance (API PISTE)","type":"reglementaire","licence":"open licence (compte PISTE)","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E8"],"priority":"P1"},
+    {"code":"service_public","name":"Service-Public / entreprendre.service-public","type":"reglementaire","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E7","E8"],"priority":"P1"},
+    {"code":"bofip","name":"BOFiP","type":"reglementaire","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E8"],"priority":"P1"},
+    {"code":"aides_publiques","name":"Base des aides publiques (les-aides.fr / aides-territoires)","type":"reglementaire","licence":"open licence / convention","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["deterministic_core"],"priority":"P1"},
+    {"code":"urssaf_baremes","name":"URSSAF / barèmes sociaux","type":"reglementaire","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["deterministic_core"],"priority":"P1"},
+    {"code":"bopi_jo","name":"Journaux officiels / BOPI (flux)","type":"reglementaire","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E9"],"priority":"P1","notes":"Surveillance de marque post-P6."},
+
+    {"code":"europages","name":"Annuaires fournisseurs B2B (Europages...)","type":"sourcing","licence":"consultation gratuite","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["E5"],"priority":"P1"},
+    {"code":"baremes_transport_douane","name":"Barèmes transport/douane (open data douanes)","type":"sourcing","licence":"open licence","cost_model":"free","activation_status":"v1_free","waterfall_level_default":1,"engines_consumers":["deterministic_core"],"priority":"P1"}
+  ]
+}

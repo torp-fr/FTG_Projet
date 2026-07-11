@@ -1,0 +1,140 @@
+{
+  "note": "Amorce des golden sets (Chantier 4 §1.5). Ces cas servent de fixtures au Sequencer/Gatekeeper pour le test de bout en bout du Lot 1 (progression DAG P0→P1 + verdict G0 calculé serveur) et de socle initial pour le futur harnais d'éval. Liste vivante, enrichie à chaque chantier (§7 Chantier 1).",
+  "golden_cases": [
+    {
+      "target_type": "referential",
+      "target_ref": "gate:G0",
+      "input_fixture": {
+        "project": {
+          "entry_door": "B",
+          "ambition_profile": "independance"
+        },
+        "project_milestones": {
+          "P0-J1": {
+            "state": "done",
+            "quality_score": 82
+          },
+          "P0-J2": {
+            "state": "done",
+            "quality_score": 70
+          },
+          "P0-J3": {
+            "state": "done",
+            "quality_score": 75
+          },
+          "P0-J4": {
+            "state": "done",
+            "quality_score": 88
+          },
+          "P0-J5": {
+            "state": "done",
+            "quality_score": 100
+          }
+        },
+        "vector_inputs": {
+          "V2": 74,
+          "V3": 68
+        }
+      },
+      "expected_qualities": {
+        "verdict": "validated",
+        "composite_min": 65,
+        "reasoning": "V2*0.6 + V3*0.4 = 74*0.6+68*0.4 = 71.6 >= seuil 65 ; plancher V2>=50 respecté."
+      }
+    },
+    {
+      "target_type": "referential",
+      "target_ref": "gate:G0_conditions_not_met",
+      "input_fixture": {
+        "project": {
+          "entry_door": "A",
+          "ambition_profile": "complement"
+        },
+        "project_milestones": {
+          "P0-J0": {
+            "state": "done"
+          },
+          "P0-J1": {
+            "state": "done",
+            "quality_score": 60
+          },
+          "P0-J2": {
+            "state": "done",
+            "quality_score": 40
+          },
+          "P0-J3": {
+            "state": "done",
+            "quality_score": 45
+          },
+          "P0-J4": {
+            "state": "done",
+            "quality_score": 50
+          },
+          "P0-J5": {
+            "state": "done",
+            "quality_score": 100
+          }
+        },
+        "vector_inputs": {
+          "V2": 45,
+          "V3": 50
+        }
+      },
+      "expected_qualities": {
+        "verdict": "conditions_not_met",
+        "reasoning": "V2=45 < plancher critique 50 → BLOQUÉ malgré composite proche du seuil ; solution_paths non vide obligatoire (règle D25)."
+      }
+    },
+    {
+      "target_type": "referential",
+      "target_ref": "dag:P0_to_P1_unlock",
+      "input_fixture": {
+        "scenario": "Porte B — P0 entièrement DONE, G0 VALIDÉ",
+        "project_milestones_before": {
+          "P0-J5": "done"
+        },
+        "expected_state_after": {
+          "P1-J1": "available"
+        }
+      },
+      "expected_qualities": {
+        "sequencer_behavior": "P1-J1 passe de locked à available uniquement après P0-J5 done ET gate_evaluations(G0).verdict in (validated, validated_with_reserves)."
+      }
+    },
+    {
+      "target_type": "engine",
+      "target_ref": "E1_profilage_neutralite",
+      "input_fixture": {
+        "structured_input": {
+          "idee": "Ouvrir un food truck de burgers dans une ville de 8000 habitants"
+        }
+      },
+      "expected_qualities": {
+        "no_feasibility_judgment": true,
+        "forbidden_terms": [
+          "impossible",
+          "mauvaise idée",
+          "ça ne marchera pas"
+        ],
+        "solution_paths_min": 1,
+        "sources_all_dated_and_attributed": true
+      }
+    },
+    {
+      "target_type": "engine",
+      "target_ref": "E4_etude_marche_waterfall",
+      "input_fixture": {
+        "task_type": "market_study",
+        "geo_lenses": [
+          "france",
+          "local:Annecy"
+        ]
+      },
+      "expected_qualities": {
+        "research_depth_min": 3,
+        "structured_data_present": true,
+        "zero_unlabeled_estimate": true
+      }
+    }
+  ]
+}

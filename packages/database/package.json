@@ -8,6 +8,7 @@
   "types": "src/client.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
     "regen-types": "supabase gen types typescript --project-id zhkrpnjfqrrtfuddqznt > src/types.ts"
   },
   "dependencies": {

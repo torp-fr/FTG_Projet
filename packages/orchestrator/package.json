@@ -8,7 +8,7 @@
   "types": "src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test test/*.test.ts"
+    "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
     "@ftg/engine-sdk": "workspace:*"

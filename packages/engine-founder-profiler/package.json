@@ -1,0 +1,22 @@
+{
+  "name": "@ftg/engine-founder-profiler",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E1 — Profilage fondateur « Le Miroir » (Chantier 5). Premier engine réel : appels LLM (Anthropic) + écritures Supabase, conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.111.0",
+    "@ftg/database": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

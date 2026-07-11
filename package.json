@@ -12,6 +12,10 @@
     "dev:cockpit-b2b": "pnpm --filter @ftg/cockpit-b2b dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r --if-present test"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
   }
 }

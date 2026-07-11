@@ -14,7 +14,7 @@ import {
   parseJsonObject,
   serializeDeclaredInput,
   type TaskHandler,
-} from "../llm-client.js";
+} from "@ftg/engine-sdk";
 import { INCARNATION_REPORT_SYSTEM } from "../prompts/incarnation-report.js";
 
 interface IncarnationJson {

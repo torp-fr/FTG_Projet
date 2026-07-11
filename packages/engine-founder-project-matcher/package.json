@@ -1,8 +1,8 @@
 {
-  "name": "@ftg/engine-sdk",
+  "name": "@ftg/engine-founder-project-matcher",
   "version": "0.1.0",
   "private": true,
-  "description": "Contrat d'engine FTG : enveloppes d'entrée/sortie standard + garanties comportementales (Chantier 4 §3).",
+  "description": "Engine E2 — Matching porteur/projet « La Boussole » (Chantier 5). Scoring V3 incarnation↔projet + gap bridging 3 voies, conforme au contrat @ftg/engine-sdk.",
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -11,7 +11,8 @@
     "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.111.0"
+    "@ftg/database": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

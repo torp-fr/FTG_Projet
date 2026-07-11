@@ -1,8 +1,7 @@
 /**
- * Point d'entrée de l'engine E1 : dispatch sur input.taskType vers le bon handler,
- * assemble l'enveloppe de sortie et la VALIDE contre le contrat @ftg/engine-sdk avant
- * de la renvoyer. Une enveloppe non conforme lève une erreur explicite — jamais de
- * sortie hors-contrat.
+ * Point d'entrée de l'engine E2 « La Boussole » : dispatch sur input.taskType,
+ * assemble l'enveloppe et la VALIDE contre le contrat @ftg/engine-sdk avant retour.
+ * Une enveloppe non conforme lève une erreur — jamais de sortie hors-contrat.
  */
 import {
   validateOutputEnvelope,
@@ -12,22 +11,19 @@ import {
   type EngineDeps,
   type TaskHandler,
 } from "@ftg/engine-sdk";
-import { profileIntake } from "./task-handlers/profileIntake.js";
-import { coherenceCheck } from "./task-handlers/coherenceCheck.js";
-import { ambitionCalibration } from "./task-handlers/ambitionCalibration.js";
-import { incarnationReport } from "./task-handlers/incarnationReport.js";
+import { requirementsExtraction } from "./task-handlers/requirementsExtraction.js";
+import { matchScoring } from "./task-handlers/matchScoring.js";
+import { gapBridging } from "./task-handlers/gapBridging.js";
 
 const HANDLERS: Record<string, TaskHandler> = {
-  profile_intake: profileIntake,
-  coherence_check: coherenceCheck,
-  ambition_calibration: ambitionCalibration,
-  incarnation_report: incarnationReport,
+  requirements_extraction: requirementsExtraction,
+  match_scoring: matchScoring,
+  gap_bridging: gapBridging,
 };
 
-/** Fusionne les morceaux produits par un handler dans une enveloppe complète et valide. */
 function mergeEnvelope(partial: Partial<EngineOutputEnvelope>): EngineOutputEnvelope {
   const base: EngineOutputEnvelope = {
-    deliverable: { title: "", contentMd: "", type: "founder_profile" },
+    deliverable: { title: "", contentMd: "", type: "match_report" },
     structuredData: {},
     sources: [],
     scores: { qualitySelf: 0, vectorContributions: {} },
@@ -35,7 +31,7 @@ function mergeEnvelope(partial: Partial<EngineOutputEnvelope>): EngineOutputEnve
     solutionPaths: [],
     pedagogy: {},
     followupsSuggested: [],
-    // E1 est un engine réflexif, pas de recherche : profondeur atteinte = 0.
+    // E2 est un engine de raisonnement (pas de recherche waterfall) : profondeur = 0.
     telemetry: { researchDepthReached: 0, modelCalls: [] },
   };
   return {
@@ -45,7 +41,7 @@ function mergeEnvelope(partial: Partial<EngineOutputEnvelope>): EngineOutputEnve
   };
 }
 
-export async function runFounderProfiler(
+export async function runFounderProjectMatcher(
   input: EngineInputEnvelope,
   deps: EngineDeps = { callModel },
 ): Promise<EngineOutputEnvelope> {
@@ -57,7 +53,7 @@ export async function runFounderProfiler(
   const handler = HANDLERS[input.taskType];
   if (!handler) {
     throw new Error(
-      `runFounderProfiler: task_type non supporté par E1 « ${input.taskType} ». ` +
+      `runFounderProjectMatcher: task_type non supporté par E2 « ${input.taskType} ». ` +
         `Attendus : ${Object.keys(HANDLERS).join(", ")}.`,
     );
   }
@@ -71,7 +67,7 @@ export async function runFounderProfiler(
   });
   if (violations.length > 0) {
     throw new Error(
-      `runFounderProfiler: enveloppe de sortie non conforme au contrat engine-sdk ` +
+      `runFounderProjectMatcher: enveloppe de sortie non conforme au contrat engine-sdk ` +
         `(${violations.length} violation(s)) — ` +
         violations.map((v) => `[${v.rule}] ${v.detail}`).join(" ; "),
     );

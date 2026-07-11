@@ -10,7 +10,7 @@ import {
   parseJsonObject,
   serializeDeclaredInput,
   type TaskHandler,
-} from "../llm-client.js";
+} from "@ftg/engine-sdk";
 import { COHERENCE_CHECK_SYSTEM } from "../prompts/coherence-check.js";
 
 interface CoherenceJson {

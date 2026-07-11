@@ -1,6 +1,8 @@
 /**
- * Fondation de l'engine E1 : wrapper LLM (Anthropic) + utilitaires partagés par les
- * task-handlers.
+ * Fondation d'exécution partagée par TOUS les engines FTG : wrapper LLM (Anthropic) +
+ * utilitaires communs aux task-handlers (contrat de handler, parsing/normalisation,
+ * garantie D25). Vit dans @ftg/engine-sdk pour être réutilisé sans duplication du
+ * wrapper Anthropic et SANS dépendance engine→engine.
  *
  * Routage sobre (Chantier 5 §0, garantie #5) : chaque tâche déclare son tier
  * (petit / intermédiaire / frontier), mappé vers un modèle Claude via trois variables
@@ -14,7 +16,7 @@ import type {
   LlmChannel,
   SolutionPath,
   ThreeWayOption,
-} from "@ftg/engine-sdk";
+} from "./types.js";
 
 // ============================================================
 // Tiers & routage modèle
@@ -106,8 +108,8 @@ export interface HandlerResult {
   /** Morceaux de l'enveloppe produits par ce handler (assemblés/validés par run.ts). */
   partial: Partial<EngineOutputEnvelope>;
   /**
-   * Un obstacle factuel (ex. écart ambition/moyens) a-t-il été identifié ? Si oui, le
-   * contrat D25 impose au moins un solution_path — garanti par le handler lui-même.
+   * Un obstacle factuel (ex. écart) a-t-il été identifié ? Si oui, le contrat D25 impose
+   * au moins un solution_path — garanti par le handler lui-même.
    */
   obstacleDetected?: boolean;
 }
@@ -173,17 +175,17 @@ export function normalizeSolutionPaths(v: unknown): SolutionPath[] {
 }
 
 /**
- * Chemin de solution neutre par défaut. Sert de filet au contrat D25 : un écart
- * ambition/moyens ne doit JAMAIS être restitué sans au moins un chemin.
+ * Chemin de solution neutre par défaut. Sert de filet au contrat D25 : un écart ne doit
+ * JAMAIS être restitué sans au moins un chemin de comblement.
  */
 export const FALLBACK_SOLUTION_PATH: SolutionPath = {
-  title: "Aligner progressivement l'objectif et les moyens",
+  title: "Combler progressivement l'écart identifié",
   description:
-    "Vos réponses indiquent un écart entre l'objectif annoncé et les moyens déclarés. Un chemin possible consiste à décomposer l'objectif en jalons intermédiaires calibrés sur les moyens actuels, puis à réévaluer à échéance.",
+    "Un écart factuel a été identifié entre ce qui est requis et ce qui est déclaré. Un chemin possible consiste à le décomposer en étapes intermédiaires et à réévaluer à échéance. La décision appartient au porteur.",
   actions: [
-    "Décomposer l'objectif en paliers mensuels mesurables",
-    "Documenter les hypothèses de revenu et de temps disponibles",
-    "Fixer une échéance de réévaluation du profil",
+    "Prioriser l'écart le plus déterminant",
+    "Documenter les hypothèses et les moyens mobilisables",
+    "Fixer une échéance de réévaluation",
   ],
 };
 
@@ -218,10 +220,10 @@ export function normalizeThreeWays(v: unknown): ThreeWayOption[] | undefined {
   });
 }
 
-/** Sérialise les données déclarées du porteur pour le user prompt. */
+/** Sérialise les données structurées d'entrée (structured_input) pour le user prompt. */
 export function serializeDeclaredInput(input: EngineInputEnvelope): string {
   return [
-    "Données déclarées par le porteur (JSON) :",
+    "Données déclarées (JSON) :",
     JSON.stringify(input.structuredInput ?? {}, null, 2),
   ].join("\n");
 }

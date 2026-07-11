@@ -4,7 +4,6 @@
  * Premier engine réel : appels LLM (Anthropic) + écritures Supabase, conforme au
  * contrat @ftg/engine-sdk. Point d'entrée principal : runFounderProfiler().
  */
-export * from "./llm-client.js";
 export * from "./run.js";
 export * from "./db-writes.js";
 

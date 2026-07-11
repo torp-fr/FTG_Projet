@@ -11,7 +11,7 @@ import {
   parseJsonObject,
   serializeDeclaredInput,
   type TaskHandler,
-} from "../llm-client.js";
+} from "@ftg/engine-sdk";
 import { AMBITION_CALIBRATION_SYSTEM } from "../prompts/ambition-calibration.js";
 
 interface AmbitionJson {

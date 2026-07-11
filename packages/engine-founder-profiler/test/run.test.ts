@@ -18,7 +18,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { EngineInputEnvelope } from "@ftg/engine-sdk";
 import { runFounderProfiler } from "../src/run.js";
-import type { CallModel } from "../src/llm-client.js";
+import type { CallModel } from "@ftg/engine-sdk";
 
 /** Construit une enveloppe d'entrée minimale et valide pour E1. */
 function makeInput(

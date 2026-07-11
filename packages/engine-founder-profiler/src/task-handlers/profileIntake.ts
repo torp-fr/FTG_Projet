@@ -9,7 +9,7 @@ import {
   parseJsonObject,
   serializeDeclaredInput,
   type TaskHandler,
-} from "../llm-client.js";
+} from "@ftg/engine-sdk";
 import { PROFILE_INTAKE_SYSTEM } from "../prompts/profile-intake.js";
 
 interface IntakeJson {

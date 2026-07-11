@@ -33,9 +33,22 @@ importers:
 
   packages/engine-founder-profiler:
     dependencies:
-      '@anthropic-ai/sdk':
-        specifier: ^0.111.0
-        version: 0.111.0
+      '@ftg/database':
+        specifier: workspace:*
+        version: link:../database
+      '@ftg/engine-sdk':
+        specifier: workspace:*
+        version: link:../engine-sdk
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+
+  packages/engine-founder-project-matcher:
+    dependencies:
       '@ftg/database':
         specifier: workspace:*
         version: link:../database
@@ -51,7 +64,14 @@ importers:
         version: 5.9.3
 
   packages/engine-sdk:
+    dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^0.111.0
+        version: 0.111.0
     devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.1
       typescript:
         specifier: ^5.5.0
         version: 5.9.3

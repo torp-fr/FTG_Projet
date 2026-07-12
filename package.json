@@ -14,7 +14,9 @@
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r --if-present test",
-    "test:jc07": "tsx scripts/jc07-audit-test.ts && tsx scripts/jc07-promote-test.ts && tsx scripts/jc07-provision-test.ts"
+    "test:jc07": "tsx scripts/jc07-audit-test.ts && tsx scripts/jc07-promote-test.ts && tsx scripts/jc07-provision-test.ts",
+    "seed:jc08-auth": "tsx scripts/jc08-seed-auth.ts",
+    "test:jc08": "tsx scripts/jc08-auth-matrix-test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

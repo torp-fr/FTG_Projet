@@ -1,0 +1,22 @@
+{
+  "name": "@ftg/engine-name-forge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E9 — Naming « L'Éponyme » (Chantier 5). Génération de noms + vérification de disponibilité réelle (domaines RDAP, dénomination Recherche d'Entreprises) + marques INDICATIF (Pappers/URL INPI) + handles ; shortlist challengée, guide PI. Conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/data-sources": "workspace:*",
+    "@ftg/database": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -28,6 +28,16 @@ Chaque appel renvoie un `SourceResult<T>` : `{ data, citation, degraded, waterfa
 
 > **Légifrance/PISTE (E7).** Jeton OAuth `client_credentials` **mis en cache et rafraîchi** avant expiration, puis récupération d'article Légifrance daté (`dateVersion` = fraîcheur). ⚠️ Le flux exige un `client_id` **ET** un `client_secret` : si seul un `client_id` est présent (ou l'API indisponible), le client **dégrade proprement** (`available:false` + `isEstimate` + method) — l'engine bascule alors sur une référence datée [E] + renvoi professionnel, **jamais** un faux texte de loi. Ajouter `PISTE_CLIENT_SECRET` active la récupération réelle sans changement de code.
 
+### Naming (E9 · L'Éponyme)
+
+| Client | Rôle | Clé | Note |
+|---|---|---|---|
+| `rdapDomains` | Disponibilité de domaines via RDAP (rdap.org route vers le registre) | **keyless** | RÉEL : `HTTP 404` = libre, `200` = pris, autre = indéterminé. On lit le STATUT (pas via `fetchJson` qui lèverait sur 404). Horodaté. |
+| `inpiMarques` | Indication de marque | Pappers (`PAPPERS_API_KEY`) | **TOUJOURS indicatif** (`isEstimate=true`), jamais officiel. Pappers `/v2/recherche-marques` (401 « crédits épuisés » → [E]) ; data.inpi.fr = 403 anti-bot (pas de JSON fiable). JOINT l'URL de recherche INPI pour vérif MANUELLE + renvoi antériorité pro. |
+| `socialHandles` | Disponibilité de handles (best-effort HTTP) | **keyless** | GitHub fiable (404/200) ; X/Instagram/LinkedIn `indicative=true` (anti-bot). `isEstimate=true`. |
+
+> La collision de **dénomination sociale** réutilise `rechercheEntreprises` (keyless, réel), pas un client dédié.
+
 ### Agrégations de marché (E4 · Le Cartographe)
 
 | Fonction | Rôle | Chiffre | Note |

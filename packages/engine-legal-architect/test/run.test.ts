@@ -51,6 +51,9 @@ function makeSources(over: Partial<DataSources> = {}): DataSources {
     bodaccTrend: async (p) => realResult({ q: p.q, zone: null, windowMonths: 12, recent: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, previous: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, creationsDelta: 0, creationsTrend: "stable" as const }, "BODACC (open data)"),
     inseeStats: async (p) => degradedResult({ sector: p.sector, indicator: null, value: null, unit: null, period: null, available: false }, "INSEE", "BDM non souscrit"),
     legifrancePiste: async (p) => degradedResult<LegalText>({ articleId: p.articleId, title: p.label ?? null, excerpt: null, dateVersion: null, url: null, available: false }, "Légifrance (API PISTE / DILA)", "OAuth PISTE incomplet"),
+    rdapDomains: async (p) => realResult({ name: p.name, label: p.name.toLowerCase(), domains: [] }, "RDAP (registres de noms de domaine)"),
+    inpiMarques: async (p) => realResult({ query: p.query, source: "indicatif", checked: false, potentialHits: [], inpiSearchUrl: "https://data.inpi.fr", checkedAt: "2026-07-12T00:00:00.000Z", note: "indicatif" }, "Marques — vérification manuelle INPI requise"),
+    socialHandles: async (p) => realResult({ handle: p.handle, results: [] }, "Handles réseaux sociaux (best-effort)"),
     ...over,
   };
 }

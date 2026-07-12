@@ -162,3 +162,61 @@ export interface LegalText {
   url: string | null;
   available: boolean;
 }
+
+/** Disponibilité d'un nom de domaine (RDAP). available: true=libre (404), false=pris (200), null=indéterminé. */
+export interface DomainAvailability {
+  domain: string;
+  tld: string;
+  available: boolean | null;
+  /** Code HTTP RDAP renvoyé (null si registre injoignable). */
+  status: number | null;
+  /** Horodatage ISO de la vérification. */
+  checkedAt: string;
+}
+export interface DomainCheckResult {
+  name: string;
+  /** Label normalisé utilisé pour construire les domaines (minuscule, sans espace/accent). */
+  label: string;
+  domains: DomainAvailability[];
+}
+
+/** Collision de dénomination sociale / nom commercial (Recherche d'Entreprises). */
+export interface DenominationCollision {
+  query: string;
+  total: number;
+  matches: Array<{ siren: string; denomination: string }>;
+  /** true si une dénomination correspond exactement (insensible à la casse/espaces). */
+  exactCollision: boolean;
+  checkedAt: string;
+}
+
+/**
+ * Indication de marque — TOUJOURS indicative (isEstimate=true), jamais une vérification
+ * officielle en base marques. `inpiSearchUrl` pointe la recherche INPI pour vérification
+ * MANUELLE + recherche d'antériorité professionnelle. `checked` = une base (Pappers) a
+ * réellement répondu.
+ */
+export interface TrademarkIndication {
+  query: string;
+  source: string;
+  checked: boolean;
+  potentialHits: Array<{ denomination: string; classes: string[] }>;
+  inpiSearchUrl: string;
+  checkedAt: string;
+  note: string;
+}
+
+/** Disponibilité indicative d'un handle réseau social (best-effort HTTP). */
+export interface SocialHandleAvailability {
+  platform: string;
+  url: string;
+  status: number | null;
+  available: boolean | null;
+  /** true si le résultat est incertain (plateforme anti-bot / statut ambigu). */
+  indicative: boolean;
+  checkedAt: string;
+}
+export interface SocialHandlesResult {
+  handle: string;
+  results: SocialHandleAvailability[];
+}

@@ -69,6 +69,9 @@ function makeSources(over: Partial<DataSources> = {}): DataSources {
     bodaccTrend: async (p) => realResult({ q: p.q, zone: p.departement ?? null, windowMonths: 12, recent: { from: "2025-07-12", to: "2026-07-12", creations: 25, proceduresCollectives: 71 }, previous: { from: "2024-07-12", to: "2025-07-12", creations: 38, proceduresCollectives: 60 }, creationsDelta: -13, creationsTrend: "baisse" as const }, "BODACC (open data)"),
     inseeStats: async (p) => degradedResult({ sector: p.sector, indicator: null, value: null, unit: null, period: null, available: false }, "INSEE (statistiques macro-sectorielles — BDM / comptes du commerce)", "BDM non souscrit — sizing macro en [E]"),
     legifrancePiste: async (p) => degradedResult({ articleId: p.articleId, title: p.label ?? null, excerpt: null, dateVersion: null, url: null, available: false }, "Légifrance (API PISTE / DILA)", "OAuth PISTE non configuré"),
+    rdapDomains: async (p) => realResult({ name: p.name, label: p.name.toLowerCase(), domains: [] }, "RDAP (registres de noms de domaine)"),
+    inpiMarques: async (p) => realResult({ query: p.query, source: "indicatif", checked: false, potentialHits: [], inpiSearchUrl: "https://data.inpi.fr", checkedAt: "2026-07-12T00:00:00.000Z", note: "indicatif" }, "Marques — vérification manuelle INPI requise"),
+    socialHandles: async (p) => realResult({ handle: p.handle, results: [] }, "Handles réseaux sociaux (best-effort)"),
     ...over,
   };
 }

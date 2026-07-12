@@ -1,0 +1,21 @@
+{
+  "name": "@ftg/engine-ideation-funnel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E3 — Idéation & entonnoir « La Forge » (Chantier 5). Porte A/B, entonnoir tracé, avocat du diable, règle des 3 ; conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/database": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

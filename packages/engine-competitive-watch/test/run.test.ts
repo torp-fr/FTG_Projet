@@ -53,7 +53,7 @@ function degradedResult<T>(data: T, source: string, method: string, wl = 1): Sou
 function competitor(n: number): Competitor {
   return {
     siren: `1110000${n}`, siret: `1110000${n}00001`, denomination: `MENUISERIE ${n}`,
-    commune: "LYON", codePostal: "69001", naf: "16.23Z", dateCreation: "2010-01-01",
+    commune: "LYON", codePostal: "69001", naf: "16.23Z", nafLabel: null, dateCreation: "2010-01-01",
     effectif: "10", source: "Annuaire des Entreprises (data.gouv)",
   };
 }
@@ -84,11 +84,20 @@ function assertSourcesWellFormed(env: EngineOutputEnvelope) {
 // ─────────────────────────────────────────────────────────────────────────────
 test("(1) ≥5 concurrents directs → enveloppe conforme, sources bien formées, ≥5 directs", async () => {
   const input = makeInput("competitor_mapping", { segment: "Artisanat", idee: "atelier de menuiserie sur-mesure", departement: "69" });
-  const callModel = seqModel({ keywords: "menuiserie agencement", naf: "16.23Z", departement: "69", code_commune: "", rationale: "…" });
+  const callModel = seqModel({
+    keywords: "menuiserie agencement",
+    naf_codes: [
+      { code: "43.32A", label: "Travaux de menuiserie bois et PVC" },
+      { code: "43.32B", label: "Travaux de menuiserie métallique" },
+      { code: "16.23Z", label: "Fabrication de charpente et d'autres menuiseries" },
+    ],
+    departement: "69", code_commune: "", rationale: "…",
+  });
   const env = await runCompetitiveWatch(input, { callModel, sources: makeSources() });
 
-  const sd = env.structuredData as { competitors: Competitor[] };
+  const sd = env.structuredData as { competitors: Competitor[]; activity_derivation: { naf_filtering: boolean } };
   assert.ok(sd.competitors.length >= 5, "au moins 5 concurrents directs");
+  assert.ok(sd.activity_derivation.naf_filtering, "filtrage par NAF actif");
   assert.equal(env.deliverable.type, "competitor_mapping");
   assertSourcesWellFormed(env);
 });
@@ -100,7 +109,7 @@ test("(1) ≥5 concurrents directs → enveloppe conforme, sources bien formées
 test("(2) < 5 concurrents → absence CHALLENGÉE (hypothèses + reformulations), non validée", async () => {
   const input = makeInput("competitor_mapping", { segment: "Artisanat", idee: "niche très spécifique" });
   const callModel = seqModel(
-    { keywords: "niche rare", naf: "", departement: "", code_commune: "", rationale: "…" },
+    { keywords: "niche rare", naf_codes: [{ code: "16.23Z", label: "Fabrication de menuiseries" }], departement: "", code_commune: "", rationale: "…" },
     { hypotheses: ["Angle de recherche trop étroit", "Substituts non cartographiés"], reformulations: [{ title: "Élargir les mots-clés", description: "Tester des synonymes", actions: ["Relancer avec 'menuiserie'"] }], summary_md: "Peu de résultats : à challenger." },
   );
   const sources = makeSources({ rechercheEntreprises: async () => realResult([competitor(1), competitor(2)], "Annuaire des Entreprises (data.gouv)") });
@@ -121,7 +130,7 @@ test("(2) < 5 concurrents → absence CHALLENGÉE (hypothèses + reformulations)
 test("(3) source en échec → dégradation isEstimate+method, pas de crash, enveloppe conforme", async () => {
   const input = makeInput("competitor_mapping", { segment: "Artisanat", idee: "menuiserie" });
   const callModel = seqModel(
-    { keywords: "menuiserie", naf: "", departement: "", code_commune: "", rationale: "…" },
+    { keywords: "menuiserie", naf_codes: [{ code: "43.32A", label: "Travaux de menuiserie bois et PVC" }], departement: "", code_commune: "", rationale: "…" },
     { hypotheses: ["Source indisponible au moment de la recherche"], reformulations: [{ title: "Réessayer plus tard", description: "La source open data était indisponible", actions: ["Relancer la cartographie"] }], summary_md: "Source dégradée." },
   );
   const sources = makeSources({
@@ -134,5 +143,42 @@ test("(3) source en échec → dégradation isEstimate+method, pas de crash, env
   assert.ok(degraded, "la source dégradée figure dans les citations");
   assert.equal(degraded?.isEstimate, true, "source en échec → isEstimate");
   assert.ok(degraded?.method && degraded.method.length > 0, "source en échec → method déclarée");
+  assertSourcesWellFormed(env);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// (4) FILTRE NAF : un mélange de bons NAF menuiserie + un intrus 68.20B (matché sur
+//     le nom) → seuls les NAF sectoriels sont retenus, l'intrus est ÉCARTÉ (documenté),
+//     enveloppe conforme. Reproduit le faux positif réel SIREN 479678757.
+// ─────────────────────────────────────────────────────────────────────────────
+test("(4) filtre NAF → intrus hors-activité (68.20B) écarté, seuls les NAF sectoriels retenus", async () => {
+  const input = makeInput("competitor_mapping", { segment: "Artisanat", idee: "atelier de menuiserie", departement: "17" });
+  const callModel = seqModel({
+    keywords: "menuiserie",
+    naf_codes: [
+      { code: "43.32A", label: "Travaux de menuiserie bois et PVC" },
+      { code: "16.23Z", label: "Fabrication de charpente et d'autres menuiseries" },
+    ],
+    departement: "17", code_commune: "", rationale: "…",
+  });
+  // 5 vrais menuisiers (43.32A / 16.23Z) + 1 intrus « MENUISERIE » codé 68.20B (location immobilière).
+  const intruder: Competitor = {
+    siren: "479678757", siret: null, denomination: "MENUISERIE", commune: "PARIS", codePostal: "75001",
+    naf: "68.20B", nafLabel: null, dateCreation: "2005-01-01", effectif: null, source: "Annuaire des Entreprises (data.gouv)",
+  };
+  const good: Competitor[] = [1, 2, 3, 4, 5].map((n) => ({ ...competitor(n), naf: n <= 3 ? "43.32A" : "16.23Z" }));
+  const sources = makeSources({ rechercheEntreprises: async () => realResult([...good, intruder], "Annuaire des Entreprises (data.gouv)") });
+  const env = await runCompetitiveWatch(input, { callModel, sources });
+
+  const sd = env.structuredData as {
+    competitors: Array<Competitor & { relevant: boolean }>;
+    excluded: Array<{ siren: string; naf: string | null; reason: string }>;
+  };
+  assert.equal(sd.competitors.length, 5, "seuls les 5 concurrents à NAF sectoriel sont retenus");
+  assert.ok(!sd.competitors.some((c) => c.siren === "479678757"), "l'intrus 479678757 n'est PAS un concurrent direct");
+  assert.ok(sd.competitors.every((c) => c.relevant), "tous les directs sont marqués pertinents");
+  const ex = sd.excluded.find((e) => e.siren === "479678757");
+  assert.ok(ex, "l'intrus est documenté dans les écartés");
+  assert.ok((ex?.naf ?? "").startsWith("68"), "l'intrus écarté porte bien le NAF hors-activité 68.20B");
   assertSourcesWellFormed(env);
 });

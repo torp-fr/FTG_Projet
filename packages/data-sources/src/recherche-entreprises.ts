@@ -8,10 +8,17 @@ const WATERFALL = 1;
 const BASE = "https://recherche-entreprises.api.gouv.fr/search";
 
 export interface RechercheParams {
-  /** Texte libre (nom/activité/mots-clés). */
+  /** Texte libre (nom/activité/mots-clés). NE QUALIFIE PAS un concurrent à lui seul (risque de faux positif matché sur le nom) — préférer `nafCodes`. */
   q?: string;
-  /** Code NAF/APE (activite_principale), ex. "16.23Z". */
+  /** Code NAF/APE unique (activite_principale), ex. "16.23Z". */
   naf?: string;
+  /**
+   * LISTE de codes NAF/APE (activite_principale), ex. ["43.32A","43.32B","16.23Z"].
+   * L'API Recherche d'Entreprises accepte des valeurs multiples séparées par des virgules :
+   * c'est le filtre d'ACTIVITÉ qualifiant réellement un concurrent (vs. la recherche par nom).
+   * Prioritaire sur `naf` s'il est renseigné.
+   */
+  nafCodes?: string[];
   /** Département (ex. "34"). */
   departement?: string;
   /** Code commune INSEE (ex. "34154"). */
@@ -49,6 +56,8 @@ function mapCompetitor(r: RawResult): Competitor {
     commune: s.libelle_commune ?? s.commune ?? null,
     codePostal: s.code_postal ?? null,
     naf: r.activite_principale ?? s.activite_principale ?? null,
+    // L'endpoint ne renvoie pas le libellé NAF ; l'engine le renseigne depuis la nomenclature sectorielle dérivée.
+    nafLabel: null,
     dateCreation: r.date_creation ?? s.date_creation ?? null,
     effectif: r.tranche_effectif_salarie ?? s.tranche_effectif_salarie ?? null,
     source: SOURCE,
@@ -63,7 +72,11 @@ function mapCompetitor(r: RawResult): Competitor {
 export async function rechercheEntreprises(params: RechercheParams): Promise<SourceResult<Competitor[]>> {
   const url = new URL(BASE);
   if (params.q) url.searchParams.set("q", params.q);
-  if (params.naf) url.searchParams.set("activite_principale", params.naf);
+  // Filtre d'activité : liste de NAF prioritaire (qualifie réellement l'activité), sinon code unique.
+  const activite = params.nafCodes?.length
+    ? params.nafCodes.map((c) => c.trim()).filter(Boolean).join(",")
+    : params.naf;
+  if (activite) url.searchParams.set("activite_principale", activite);
   if (params.departement) url.searchParams.set("departement", params.departement);
   if (params.codeCommune) url.searchParams.set("code_commune", params.codeCommune);
   url.searchParams.set("per_page", String(Math.min(Math.max(params.perPage ?? 10, 1), 25)));

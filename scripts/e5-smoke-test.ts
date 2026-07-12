@@ -82,12 +82,24 @@ async function main(): Promise<void> {
   // 1) Cartographie (RÉEL : Recherche d'Entreprises + Sirene)
   console.log("\n• competitor_mapping (LIVE Recherche d'Entreprises + Sirene)…");
   const mapEnv = await run("competitor_mapping", { segment: ctx.segment, idee: ctx.idea ?? "atelier de menuiserie sur-mesure" });
-  const mapSd = mapEnv.structuredData as { competitors: Array<{ siren: string; denomination: string; commune: string | null; dateCreation: string | null }>; activity_derivation: { keywords: string; departement: string | null }; coverage_note: string };
+  const mapSd = mapEnv.structuredData as {
+    competitors: Array<{ siren: string; denomination: string; commune: string | null; naf: string | null; nafLabel: string | null; dateCreation: string | null }>;
+    excluded: Array<{ siren: string; denomination: string; naf: string | null }>;
+    activity_derivation: { keywords: string; naf_codes: Array<{ code?: string; label?: string }>; naf_filtering: boolean; departement: string | null };
+    coverage_note: string;
+  };
   const competitors = mapSd.competitors;
   const keywords = mapSd.activity_derivation.keywords;
+  const nafCodes = (mapSd.activity_derivation.naf_codes ?? []).map((n) => n.code).filter(Boolean).join(", ");
   const departement = mapSd.activity_derivation.departement ?? undefined;
-  console.log(`  → ${competitors.length} concurrents · mots-clés « ${keywords} »${departement ? ` · dép. ${departement}` : ""}`);
-  for (const c of competitors.slice(0, 6)) console.log(`     • ${c.siren} | ${c.denomination} | ${c.commune} | créé ${c.dateCreation}`);
+  console.log(`  → ${competitors.length} concurrents QUALIFIÉS PAR ACTIVITÉ · NAF sectoriels [${nafCodes}]${departement ? ` · dép. ${departement}` : ""} (appoint mots-clés « ${keywords} »)`);
+  for (const c of competitors.slice(0, 8)) console.log(`     • ${c.siren} | ${c.denomination} | ${c.commune} | NAF ${c.naf ?? "?"}${c.nafLabel ? ` (${c.nafLabel})` : ""} | créé ${c.dateCreation}`);
+  if (mapSd.excluded?.length) {
+    console.log(`  ⊘ ${mapSd.excluded.length} écarté(s) HORS ACTIVITÉ (matchés sur le nom, pas l'activité) :`);
+    for (const e of mapSd.excluded.slice(0, 6)) console.log(`     ✗ ${e.siren} | ${e.denomination} | NAF ${e.naf ?? "?"}`);
+  } else {
+    console.log("  ⊘ 0 écarté (le filtre NAF a produit une liste déjà propre).");
+  }
 
   // 2) Vitalité (RÉEL : BODACC)
   console.log("• vitality_signals (LIVE BODACC)…");

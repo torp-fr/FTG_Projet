@@ -38,6 +38,8 @@ export interface Competitor {
   commune: string | null;
   codePostal: string | null;
   naf: string | null;
+  /** Libellé du code NAF/APE (renseigné par l'engine à partir de la nomenclature sectorielle dérivée ; l'endpoint Recherche d'Entreprises ne le fournit pas). */
+  nafLabel: string | null;
   dateCreation: string | null;
   /** Tranche d'effectif salarié (code INSEE) si disponible. */
   effectif: string | null;

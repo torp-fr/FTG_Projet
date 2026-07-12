@@ -19,6 +19,8 @@ Chaque appel renvoie un `SourceResult<T>` : `{ data, citation, degraded, waterfa
 | Client | Source (registre) | Clé | Waterfall | Endpoint (vérifié) |
 |---|---|---|---|---|
 | `rechercheEntreprises` | Annuaire des Entreprises (data.gouv) | **keyless** | N1 | `GET https://recherche-entreprises.api.gouv.fr/search` (`q`, `activite_principale`, `departement`, `code_commune`, `per_page`) |
+
+> **Qualification par activité (anti faux-positif).** `rechercheEntreprises` accepte `nafCodes: string[]` → mappé sur `activite_principale` (valeurs multiples séparées par des virgules). Un concurrent se qualifie par son **code NAF/APE**, pas par son nom : la seule recherche plein-texte `q` ramène des faux positifs matchés sur la dénomination (ex. SIREN `479678757` « MENUISERIE » codé `68.20B` « location immobilière » — pas un menuisier). Vérifié empiriquement : `q` + `activite_principale` se combinent en **AND** (le nom surface les concurrents nommés, le NAF rejette les hors-activité). Le libellé NAF n'est **pas** fourni par cet endpoint — l'engine le renseigne depuis la nomenclature sectorielle dérivée.
 | `sireneInsee` | API Sirene (INSEE) | `INSEE_SIRENE_API_KEY` (en-tête `X-INSEE-Api-Key-Integration`) | N1 | `GET https://api.insee.fr/api-sirene/3.11/siret/{siret}` (nouveau portail portail-api.insee.fr) |
 | `pappers` | API Pappers | `PAPPERS_API_KEY` (`api_token`) | N2 | `GET https://api.pappers.fr/v2/entreprise?siren={siren}` |
 | `bodacc` | BODACC (open data) | **keyless** | N1 | `GET https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/.../records` (opendatasoft) |

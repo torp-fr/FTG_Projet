@@ -1,0 +1,17 @@
+{
+  // E8 consomme @ftg/deterministic-core EN SOURCE (imports ".ts" internes au moteur pur).
+  // On active allowImportingTsExtensions (+ noEmit) comme prévu par sa conception. Les
+  // imports internes d'E8 restent en ".js" (NodeNext) ; aucun artefact de build n'est émis.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

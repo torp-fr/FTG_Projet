@@ -1,0 +1,23 @@
+{
+  "name": "@ftg/engine-tax-educator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E8 — Fiscal & imposition « Le Fiscaliste » (Chantier 5, cadre D7/A5.8). Cours 3 niveaux + calendrier fiscal + simulation via @ftg/deterministic-core + alertes de seuils. Posture information stricte : jamais d'optimisation fiscale personnalisée. Conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/data-sources": "workspace:*",
+    "@ftg/database": "workspace:*",
+    "@ftg/deterministic-core": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

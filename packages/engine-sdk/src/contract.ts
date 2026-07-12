@@ -99,6 +99,53 @@ export function checkLegalAdviceNeutrality(contentMd: string): ContractViolation
 }
 
 /**
+ * D7 / A5.8 (fiscal) — engine E8 « Fiscal ». Complète FORBIDDEN_LEGAL_ADVICE_TERMS pour
+ * capter l'OPTIMISATION FISCALE PERSONNALISÉE (« le montage optimal pour vous »,
+ * « optimisez votre fiscalité », « pour payer moins d'impôt »…). L'engine informe sur le
+ * cadre fiscal général ; il ne conçoit jamais de montage/optimisation pour la personne.
+ * On évite volontairement les tournures pédagogiques neutres (« comprendre la TVA »,
+ * « l'abattement réduit la base imposable ») : seules les formulations PERSONNALISÉES
+ * (« votre », « pour vous », impératif d'optimisation) sont proscrites.
+ */
+export const FORBIDDEN_TAX_ADVICE_TERMS = [
+  "le montage optimal pour vous",
+  "le montage le plus avantageux pour vous",
+  "le meilleur montage pour vous",
+  "le montage fiscal optimal",
+  "pour payer moins d'impôt",
+  "pour payer moins d'impôts",
+  "réduire votre imposition",
+  "réduire vos impôts",
+  "optimiser votre fiscalité",
+  "optimiser votre imposition",
+  "optimisez votre",
+  "défiscaliser",
+  "vous avez intérêt à basculer",
+  "vous avez intérêt à opter",
+  "je vous conseille de basculer",
+  "je vous conseille de passer",
+] as const;
+
+/**
+ * D7 / A5.8 (fiscal) — Vérifie qu'aucun terme d'OPTIMISATION FISCALE PERSONNALISÉE
+ * n'apparaît dans le livrable (engine E8). run.ts de E8 l'applique EN PLUS de
+ * checkLegalAdviceNeutrality avant de retourner l'enveloppe et REJETTE si violation.
+ */
+export function checkTaxAdviceNeutrality(contentMd: string): ContractViolation[] {
+  const lower = contentMd.toLowerCase();
+  const violations: ContractViolation[] = [];
+  for (const term of FORBIDDEN_TAX_ADVICE_TERMS) {
+    if (lower.includes(term)) {
+      violations.push({
+        rule: "D7_tax_advice_neutrality",
+        detail: `Terme d'optimisation fiscale personnalisée détecté : "${term}"`,
+      });
+    }
+  }
+  return violations;
+}
+
+/**
  * A5.1 — Recherche waterfall ≥ 3 niveaux sur toute tâche de recherche.
  */
 export function checkWaterfallDepth(

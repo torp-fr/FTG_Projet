@@ -15,6 +15,10 @@ node_modules/
 dist/
 build/
 out/
+*.tsbuildinfo
+
+# Next.js generated (régénéré par next dev/build ; non versionné — cf. apps/porteur, apps/cockpit-b2b)
+next-env.d.ts
 
 # Vercel
 .vercel

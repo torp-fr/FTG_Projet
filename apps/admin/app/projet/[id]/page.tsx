@@ -1,12 +1,10 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectSupervision } from "@/lib/data";
 import { readAuditForTarget } from "@/lib/audit";
 import { startImpersonation } from "@/app/actions";
-import { VerdictBadge } from "@/components/VerdictBadge";
-import { StateBadge, RunStatusBadge } from "@/components/StateBadge";
 import { AuditTable } from "@/components/AuditTable";
+import { Section, VerdictBadge, StateBadge, RunStatusBadge } from "@ftg/ui-kit";
 import { fmtDateTime, fmtCost } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -17,18 +15,6 @@ const AMBITION_LABEL: Record<string, string> = {
   croissance: "Croissance",
   scale: "Scale",
 };
-
-function Section({ title, children, note }: { title: string; children: ReactNode; note?: string }) {
-  return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5">
-      <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
-        {note ? <span className="text-xs text-slate-400">{note}</span> : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 export default async function ProjectSupervisionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

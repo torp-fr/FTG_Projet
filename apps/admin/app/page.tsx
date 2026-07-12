@@ -1,7 +1,6 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { getSupervisionOverview, type SupervisionRow } from "@/lib/data";
-import { VerdictBadge } from "@/components/VerdictBadge";
+import { VerdictBadge, StatTile } from "@ftg/ui-kit";
 
 export const dynamic = "force-dynamic";
 
@@ -11,16 +10,6 @@ const AMBITION_LABEL: Record<string, string> = {
   croissance: "Croissance",
   scale: "Scale",
 };
-
-function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
-      <div className="text-2xl font-semibold text-slate-900">{value}</div>
-      <div className="mt-0.5 text-sm text-slate-500">{label}</div>
-      {hint ? <div className="mt-1 text-xs text-slate-400">{hint}</div> : null}
-    </div>
-  );
-}
 
 function VectorChips({ vectors }: { vectors: Record<string, number> }) {
   const entries = Object.entries(vectors).sort(([a], [b]) => (a < b ? -1 : 1));
@@ -88,10 +77,10 @@ export default async function SupervisionPage({ searchParams }: { searchParams: 
 
       {/* KPI globaux */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Organisations" value={kpis.orgs} />
-        <Stat label="Projets" value={kpis.projects} />
-        <Stat label="Par phase" value={<span className="text-base font-medium text-slate-700">{byPhase.map(([p, n]) => `${p}·${n}`).join("  ") || "—"}</span>} />
-        <Stat label="Par verdict" value={<span className="text-xs font-normal leading-tight text-slate-600">{byVerdict.map(([v, n]) => `${n}× ${v}`).join(" · ") || "—"}</span>} />
+        <StatTile label="Organisations" value={kpis.orgs} />
+        <StatTile label="Projets" value={kpis.projects} />
+        <StatTile label="Par phase" value={<span className="text-base font-medium text-slate-700">{byPhase.map(([p, n]) => `${p}·${n}`).join("  ") || "—"}</span>} />
+        <StatTile label="Par verdict" value={<span className="text-xs font-normal leading-tight text-slate-600">{byVerdict.map(([v, n]) => `${n}× ${v}`).join(" · ") || "—"}</span>} />
       </div>
 
       {/* Filtres basiques (GET, sans JS) */}

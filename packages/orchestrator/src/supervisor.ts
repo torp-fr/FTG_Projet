@@ -37,3 +37,53 @@ export function checkQuota(moduleCode: string, quota: QuotaState): QuotaCheckRes
     reason: `Quota du module "${moduleCode}" épuisé (${consumed}/${included}) et solde de crédits nul.`,
   };
 }
+
+// ============================================================
+// Enregistrement des runs (JC-05) — le Supervisor consigne chaque run dans engine_runs
+// (statut, profondeur, appels modèle = coût/tokens) et laisse une trace d'événement.
+// Serveur uniquement (service_role). Sûreté de rejeu : chaque run porte un runId.
+// ============================================================
+import type { FtgClient, Json } from "@ftg/database";
+
+export interface EngineRunRow {
+  projectId: string;
+  agentId?: string | null;
+  engineVersionId: string;
+  taskType: string;
+  inputEnvelope: unknown;
+  inputStructuredValidated: boolean;
+  researchDepth: number;
+  modelCalls: unknown;
+  llmChannel: string;
+  costEstimate?: number | null;
+  outputEnvelopeRef?: string | null;
+  status: "queued" | "running" | "awaiting_user" | "done" | "failed";
+  startedAt?: string | null;
+  finishedAt?: string | null;
+}
+
+/** Consigne un run dans engine_runs (télémétrie : research_depth + model_calls = coût/tokens). */
+export async function writeEngineRunRow(client: FtgClient, run: EngineRunRow) {
+  const { data, error } = await client
+    .from("engine_runs")
+    .insert({
+      project_id: run.projectId,
+      agent_id: run.agentId ?? null,
+      engine_version_id: run.engineVersionId,
+      task_type: run.taskType,
+      input_envelope: run.inputEnvelope as unknown as Json,
+      input_structured_validated: run.inputStructuredValidated,
+      research_depth: run.researchDepth,
+      model_calls: run.modelCalls as unknown as Json,
+      llm_channel: run.llmChannel,
+      cost_estimate: run.costEstimate ?? null,
+      output_envelope_ref: run.outputEnvelopeRef ?? null,
+      status: run.status,
+      started_at: run.startedAt ?? null,
+      finished_at: run.finishedAt ?? null,
+    })
+    .select("id, status")
+    .single();
+  if (error) throw new Error(`writeEngineRunRow(${run.taskType}): ${error.message}`);
+  return data;
+}

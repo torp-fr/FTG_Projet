@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
 import { getPorteurDashboard } from "@/lib/data";
-import { PhaseDag } from "@/components/PhaseDag";
-import { DeliverableBody } from "@/components/DeliverableBody";
-import { VerdictBadge } from "@/components/VerdictBadge";
+import { Section, ProgressHero, PhaseDag, AgentBoard, DeliverableBody, VerdictBadge } from "@ftg/ui-kit";
 
 const AMBITION_LABEL: Record<string, string> = {
   complement: "Complément",
@@ -10,18 +8,6 @@ const AMBITION_LABEL: Record<string, string> = {
   croissance: "Croissance",
   scale: "Scale",
 };
-
-function Section({ title, children, note, id }: { title: string; children: ReactNode; note?: string; id?: string }) {
-  return (
-    <section id={id} className="rounded-lg border border-slate-200 bg-white p-5">
-      <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
-        {note ? <span className="text-xs text-slate-400">{note}</span> : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 function Stub({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -57,27 +43,14 @@ export async function Dashboard({ projectId }: { projectId: string }) {
       </div>
 
       {/* Héros — « le verre d'eau » */}
-      <section className="rounded-lg border border-slate-200 bg-white p-6">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-          <div className="sm:w-56">
-            <div className="text-4xl font-semibold text-slate-900">{progression.pct}%</div>
-            <div className="mt-1 text-sm text-slate-500">de mon parcours ({progression.doneCount}/{progression.seededCount} jalons validés)</div>
-            <div className="mt-1 text-sm text-slate-600">
-              Phase courante : <span className="font-medium">{progression.currentPhase}</span> — {progression.currentPhaseName}
-            </div>
-          </div>
-          <div className="flex-1">
-            <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100">
-              <div className="h-full rounded-full bg-emerald-400 transition-all" style={{ width: `${progression.pct}%` }} />
-            </div>
-            <div className="mt-2 flex justify-between text-[10px] text-slate-400">
-              {phases.map((ph) => (
-                <span key={ph.code} className={ph.code === progression.currentPhase ? "font-semibold text-slate-700" : ""}>{ph.code}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProgressHero
+        pct={progression.pct}
+        doneCount={progression.doneCount}
+        seededCount={progression.seededCount}
+        currentPhase={progression.currentPhase}
+        currentPhaseName={progression.currentPhaseName}
+        phaseCodes={phases.map((ph) => ph.code)}
+      />
 
       {/* 1. Mon parcours (DAG jalons) */}
       <Section title="Mon parcours (P0 → P9)" note="chemin recommandé surligné">
@@ -86,35 +59,7 @@ export async function Dashboard({ projectId }: { projectId: string }) {
 
       {/* 2. Le Board (agents actifs) */}
       <Section title="Le Board — mes agents">
-        <div className="grid gap-3 sm:grid-cols-3">
-          {agents.map((a) => (
-            <div key={a.code} className="rounded-md border border-slate-100 p-3">
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-slate-900">{a.persona}</span>
-                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] text-emerald-700">Actif</span>
-              </div>
-              <div className="text-xs text-slate-400">{a.code}</div>
-              <div className="mt-1 text-xs text-slate-500">
-                {a.runsCount > 0 ? `${a.runsCount} exécution(s) · dernier run : ${a.latestRunStatus ?? "—"}` : "en veille"}
-              </div>
-              {a.outputs.length > 0 ? (
-                <ul className="mt-2 space-y-1 text-xs">
-                  {a.outputs.map((o, i) => (
-                    <li key={i}>
-                      {o.deliverableId ? (
-                        <a href={`#deliverable-${o.deliverableId}`} className="text-slate-600 hover:text-slate-900 hover:underline">↳ {o.label}</a>
-                      ) : (
-                        <span className="text-slate-500">↳ {o.label}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="mt-2 text-xs text-slate-400">Aucun livrable pour ce projet.</div>
-              )}
-            </div>
-          ))}
-        </div>
+        <AgentBoard agents={agents} />
         <div className="mt-3 rounded-md border border-dashed border-slate-200 bg-slate-50 p-3 text-xs text-slate-500">
           Objectifs OKR — activés au branchement de l’orchestrateur (aucun OKR fabriqué en v1).
         </div>

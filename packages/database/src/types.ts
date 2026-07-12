@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_label: string
+          actor_user_id: string | null
+          created_at: string
+          details: Json
+          id: string
+          target_id: string | null
+          target_label: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          actor_label: string
+          actor_user_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target_id?: string | null
+          target_label?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          actor_label?: string
+          actor_user_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target_id?: string | null
+          target_label?: string | null
+          target_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_audit_log_actor_user_id_fkey"
+            columns: ["actor_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_objectives: {
         Row: {
           agent_id: string
@@ -552,6 +596,41 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          actor: string | null
+          created_at: string
+          id: string
+          payload: Json
+          project_id: string | null
+          type: string
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_id?: string | null
+          type: string
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       evidences: {
         Row: {
           captured_at: string
@@ -595,41 +674,6 @@ export type Database = {
             columns: ["project_milestone_id"]
             isOneToOne: false
             referencedRelation: "project_milestones"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      events: {
-        Row: {
-          actor: string | null
-          created_at: string
-          id: string
-          payload: Json
-          project_id: string | null
-          type: string
-        }
-        Insert: {
-          actor?: string | null
-          created_at?: string
-          id?: string
-          payload?: Json
-          project_id?: string | null
-          type: string
-        }
-        Update: {
-          actor?: string | null
-          created_at?: string
-          id?: string
-          payload?: Json
-          project_id?: string | null
-          type?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "events_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]

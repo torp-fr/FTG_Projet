@@ -2,8 +2,11 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectSupervision } from "@/lib/data";
+import { readAuditForTarget } from "@/lib/audit";
+import { startImpersonation } from "@/app/actions";
 import { VerdictBadge } from "@/components/VerdictBadge";
 import { StateBadge, RunStatusBadge } from "@/components/StateBadge";
+import { AuditTable } from "@/components/AuditTable";
 import { fmtDateTime, fmtCost } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +34,7 @@ export default async function ProjectSupervisionPage({ params }: { params: Promi
   const { id } = await params;
   const p = await getProjectSupervision(id);
   if (!p) notFound();
+  const porteurAudit = await readAuditForTarget("porteur", p.ownerUserId, 25);
 
   return (
     <div className="space-y-6">
@@ -39,6 +43,12 @@ export default async function ProjectSupervisionPage({ params }: { params: Promi
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <h1 className="text-xl font-semibold text-slate-900">{p.name}</h1>
           <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs text-slate-500">{p.status}</span>
+          <form action={startImpersonation} className="ml-auto">
+            <input type="hidden" name="projectId" value={p.id} />
+            <button type="submit" className="rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100">
+              Voir comme le porteur
+            </button>
+          </form>
         </div>
         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
           <span>{p.ownerName}</span>
@@ -235,6 +245,11 @@ export default async function ProjectSupervisionPage({ params }: { params: Promi
           )}
         </Section>
       </div>
+
+      {/* Traces d'audit opérateur ciblant ce porteur (impersonation…) */}
+      <Section title="Audit opérateur (ce porteur)" note="append-only · immuable">
+        <AuditTable rows={porteurAudit} emptyLabel="Aucun acte opérateur sur ce porteur." />
+      </Section>
     </div>
   );
 }

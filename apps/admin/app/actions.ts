@@ -2,9 +2,11 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { getServiceClient } from "@/lib/supabase";
 import { writeAudit } from "@/lib/audit";
 import { IMPERSONATION_COOKIE } from "@/lib/impersonation";
+import { runEngineSmoke, promoteVersion } from "@/lib/engines";
 
 /**
  * Server actions opérateur. Chaque acte écrit une trace d'audit AVANT tout effet
@@ -68,4 +70,24 @@ export async function endImpersonation(formData: FormData): Promise<void> {
 
   jar.delete(IMPERSONATION_COOKIE);
   redirect(projectId ? `/projet/${projectId}` : "/");
+}
+
+/**
+ * Promotion d'une version d'engine : déclenche le smoke réel puis promeut via la fonction base
+ * sous verrous (refus si smoke rouge, exactement une active, audit dans la même transaction).
+ * Le résultat (promue / refusée + raison) est passé à la page via query params, sans écriture
+ * supplémentaire (l'audit est fait par la fonction base).
+ */
+export async function promoteVersionAction(formData: FormData): Promise<void> {
+  const versionId = String(formData.get("versionId") ?? "");
+  const engineCode = String(formData.get("engineCode") ?? "");
+  if (!versionId || !engineCode) throw new Error("promoteVersionAction: versionId/engineCode manquant.");
+
+  const smoke = await runEngineSmoke(engineCode);
+  const result = await promoteVersion(versionId, smoke);
+
+  revalidatePath("/engines");
+  const status = result.promoted ? (result.rollback ? "rolledback" : "promoted") : "refused";
+  const reason = result.reason ?? "";
+  redirect(`/engines?engine=${encodeURIComponent(engineCode)}&status=${status}&reason=${encodeURIComponent(reason)}`);
 }

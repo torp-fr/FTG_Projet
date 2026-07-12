@@ -1725,6 +1725,16 @@ export type Database = {
         Returns: boolean
       }
       ftg_is_project_owner: { Args: { p_project_id: string }; Returns: boolean }
+      promote_engine_version: {
+        Args: {
+          p_actor_label: string
+          p_regression_ok?: boolean
+          p_smoke_details?: Json
+          p_smoke_passed: boolean
+          p_version_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

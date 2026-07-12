@@ -108,13 +108,12 @@ export async function legifrancePiste(params: LegifranceParams): Promise<SourceR
     };
     return real(SOURCE, WATERFALL, now, publicUrl, text);
   } catch (err) {
-    return degraded(
-      SOURCE,
-      WATERFALL,
-      now,
-      publicUrl,
-      `API Légifrance/PISTE indisponible (${errMsg(err)}) — texte non récupéré en direct ; se référer à la version datée sur legifrance.gouv.fr et faire vérifier par un professionnel.`,
-      fallback,
-    );
+    const msg = errMsg(err);
+    // 403 avec un token OAuth valide = l'APPLICATION PISTE n'est pas abonnée à l'API
+    // Légifrance (autorisation applicative), à distinguer d'une simple indisponibilité.
+    const method = /HTTP 403/.test(msg)
+      ? `Accès Légifrance refusé (HTTP 403) alors que le token OAuth est valide : l'application PISTE n'est pas abonnée à l'API Légifrance. Souscrire l'API « Légifrance » à l'application sur piste.gouv.fr (étape externe, sans changement de code). Texte non récupéré ; se référer à la version datée sur legifrance.gouv.fr + validation professionnelle.`
+      : `API Légifrance/PISTE indisponible (${msg}) — texte non récupéré en direct ; se référer à la version datée sur legifrance.gouv.fr et faire vérifier par un professionnel.`;
+    return degraded(SOURCE, WATERFALL, now, publicUrl, method, fallback);
   }
 }

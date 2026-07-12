@@ -21,6 +21,7 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@ftg/ui-kit"],
   eslint: { ignoreDuringBuilds: true },
 };
 

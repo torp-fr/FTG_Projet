@@ -1,0 +1,78 @@
+/**
+ * FTG — Tokens de design (JC-09). SURFACE UNIQUE d habillage.
+ *
+ * Valeurs NEUTRES ACTUELLES (identiques au thème Tailwind d origine) — AUCUN choix de design
+ * ici : l habillage (JC-08b) se fait en editant CE fichier, propage partout via le preset
+ * Tailwind du ui-kit. Couleurs en canaux "R G B" pour preserver les modificateurs d opacite
+ * (ex. bg-white/70). Refactor pur : rgb(var(--x) / 1) === la couleur Tailwind d origine.
+ */
+:root {
+  /* Couleurs (canaux R G B) */
+  --ftg-color-white: 255 255 255;
+  --ftg-color-slate-50: 248 250 252;
+  --ftg-color-slate-100: 241 245 249;
+  --ftg-color-slate-200: 226 232 240;
+  --ftg-color-slate-300: 203 213 225;
+  --ftg-color-slate-400: 148 163 184;
+  --ftg-color-slate-500: 100 116 139;
+  --ftg-color-slate-600: 71 85 105;
+  --ftg-color-slate-700: 51 65 85;
+  --ftg-color-slate-800: 30 41 59;
+  --ftg-color-slate-900: 15 23 42;
+  --ftg-color-emerald-50: 236 253 245;
+  --ftg-color-emerald-200: 167 243 208;
+  --ftg-color-emerald-300: 110 231 183;
+  --ftg-color-emerald-400: 52 211 153;
+  --ftg-color-emerald-600: 5 150 105;
+  --ftg-color-emerald-700: 4 120 87;
+  --ftg-color-emerald-800: 6 95 70;
+  --ftg-color-emerald-900: 6 78 59;
+  --ftg-color-amber-50: 255 251 235;
+  --ftg-color-amber-100: 254 243 199;
+  --ftg-color-amber-200: 253 230 138;
+  --ftg-color-amber-300: 252 211 77;
+  --ftg-color-amber-400: 251 191 36;
+  --ftg-color-amber-500: 245 158 11;
+  --ftg-color-amber-700: 180 83 9;
+  --ftg-color-amber-800: 146 64 14;
+  --ftg-color-amber-900: 120 53 15;
+  --ftg-color-violet-50: 245 243 255;
+  --ftg-color-violet-200: 221 214 254;
+  --ftg-color-violet-300: 196 181 253;
+  --ftg-color-violet-700: 109 40 217;
+  --ftg-color-violet-800: 91 33 182;
+  --ftg-color-blue-50: 239 246 255;
+  --ftg-color-blue-200: 191 219 254;
+  --ftg-color-blue-300: 147 197 253;
+  --ftg-color-blue-700: 29 78 216;
+  --ftg-color-rose-50: 255 241 242;
+  --ftg-color-rose-200: 254 205 211;
+  --ftg-color-rose-300: 253 164 175;
+  --ftg-color-rose-600: 225 29 72;
+  --ftg-color-rose-700: 190 18 60;
+  --ftg-color-rose-800: 159 18 57;
+
+  /* Rayons (valeurs Tailwind actuelles) */
+  --ftg-radius-DEFAULT: 0.25rem;
+  --ftg-radius-md: 0.375rem;
+  --ftg-radius-lg: 0.5rem;
+  --ftg-radius-full: 9999px;
+
+  /* Echelle typographique (declaree ; valeurs Tailwind actuelles) */
+  --ftg-text-xs: 0.75rem;
+  --ftg-text-sm: 0.875rem;
+  --ftg-text-base: 1rem;
+  --ftg-text-lg: 1.125rem;
+  --ftg-text-xl: 1.25rem;
+  --ftg-text-2xl: 1.5rem;
+  --ftg-text-3xl: 1.875rem;
+  --ftg-text-4xl: 2.25rem;
+
+  /* Espacement (declare ; base Tailwind 0.25rem) */
+  --ftg-space-1: 0.25rem;
+  --ftg-space-2: 0.5rem;
+  --ftg-space-3: 0.75rem;
+  --ftg-space-4: 1rem;
+  --ftg-space-5: 1.25rem;
+  --ftg-space-6: 1.5rem;
+}

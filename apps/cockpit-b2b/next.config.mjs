@@ -21,6 +21,7 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@ftg/ui-kit"],
   // Pas de lint bloquant au build v1 (pas de config eslint dédiée ici).
   eslint: { ignoreDuringBuilds: true },
 };

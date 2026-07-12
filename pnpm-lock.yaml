@@ -17,6 +17,9 @@ importers:
       '@ftg/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@ftg/ui-kit':
+        specifier: workspace:*
+        version: link:../../packages/ui-kit
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.110.2)
@@ -63,6 +66,9 @@ importers:
       '@ftg/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@ftg/ui-kit':
+        specifier: workspace:*
+        version: link:../../packages/ui-kit
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.110.2)
@@ -109,6 +115,9 @@ importers:
       '@ftg/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@ftg/ui-kit':
+        specifier: workspace:*
+        version: link:../../packages/ui-kit
       '@supabase/ssr':
         specifier: ^0.5.2
         version: 0.5.2(@supabase/supabase-js@2.110.2)
@@ -352,6 +361,30 @@ importers:
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+
+  packages/ui-kit:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.1
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.17)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.7
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.7(react@19.2.7)
+      tailwindcss:
+        specifier: ^3.4.17
+        version: 3.4.19(tsx@4.23.0)
       typescript:
         specifier: ^5.5.0
         version: 5.9.3

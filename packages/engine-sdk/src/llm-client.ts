@@ -126,6 +126,36 @@ export type TaskHandler = (
 // ============================================================
 
 /**
+ * Extrait le PREMIER objet JSON équilibré d'un texte, en respectant les chaînes (les
+ * accolades et les ``` à l'intérieur d'une chaîne sont ignorées). Robuste aux fences
+ * Markdown imbriquées et au texte parasite après le JSON. Retourne null si aucun.
+ */
+function extractFirstJsonObject(raw: string): string | null {
+  let inString = false;
+  let escaped = false;
+  let depth = 0;
+  let start = -1;
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === "\\") escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') inString = true;
+    else if (ch === "{") {
+      if (depth === 0) start = i;
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0 && start !== -1) return raw.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+/**
  * Extrait un objet JSON de la sortie brute d'un modèle (tolère les fences Markdown et
  * le texte parasite autour). Lève si aucun JSON exploitable n'est trouvé.
  */
@@ -133,18 +163,23 @@ export function parseJsonObject<T = Record<string, unknown>>(raw: string): T {
   let text = raw.trim();
   const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
   if (fence && fence[1]) text = fence[1].trim();
-  if (!text.startsWith("{")) {
-    const start = text.indexOf("{");
-    const end = text.lastIndexOf("}");
-    if (start !== -1 && end !== -1 && end > start) text = text.slice(start, end + 1);
-  }
+  // Chemin direct (inchangé) : la plupart des sorties parsent tel quel.
   try {
     return JSON.parse(text) as T;
-  } catch (err) {
-    throw new Error(
-      `parseJsonObject: réponse du modèle non parsable en JSON (${(err as Error).message}). Extrait: ${raw.slice(0, 200)}`,
-    );
+  } catch {
+    /* fallback robuste ci-dessous */
   }
+  // Fallback : extraire le premier objet JSON équilibré du texte BRUT (gère les fences
+  // imbriquées dans une chaîne, le texte parasite en amont/aval, une fence tronquée).
+  const candidate = extractFirstJsonObject(raw);
+  if (candidate) {
+    try {
+      return JSON.parse(candidate) as T;
+    } catch {
+      /* tombe dans l'erreur ci-dessous */
+    }
+  }
+  throw new Error(`parseJsonObject: réponse du modèle non parsable en JSON. Extrait: ${raw.slice(0, 200)}`);
 }
 
 /** Ramène un score potentiellement invalide dans [0, 100] (0 par défaut). */

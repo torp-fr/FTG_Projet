@@ -25,6 +25,14 @@ Chaque appel renvoie un `SourceResult<T>` : `{ data, citation, degraded, waterfa
 | `pappers` | API Pappers | `PAPPERS_API_KEY` (`api_token`) | N2 | `GET https://api.pappers.fr/v2/entreprise?siren={siren}` |
 | `bodacc` | BODACC (open data) | **keyless** | N1 | `GET https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/.../records` (opendatasoft) |
 
+### Agrégations de marché (E4 · Le Cartographe)
+
+| Fonction | Rôle | Chiffre | Note |
+|---|---|---|---|
+| `countEstablishments` | **Densité** : nb d'établissements (actifs si `activeOnly`) par NAF + zone via `total_results` (aucune pagination) | RÉEL | Le total national est **plafonné** par l'API (`RE_TOTAL_CAP = 10000`) → `capped=true` = **plancher**, jamais un exact. Comptage par zone (dép./commune) = exact. Détail `perNaf`. |
+| `bodaccTrend` | **Tendance de vitalité** : annonces « Créations » vs « Procédures collectives » comptées (`total_count`) sur 2 fenêtres consécutives de `windowMonths` | RÉEL | BODACC n'est **pas** indexé par NAF → recherche par terme sectoriel (méthode déclarée). Compte des **annonces**, pas des entreprises uniques. |
+| `inseeStats` | **Cadrage macro** (BDM / comptes du commerce) | **[E] par défaut** | Souscription BDM dédiée (distincte de Sirene) : sans `INSEE_BDM_API_KEY` + `seriesId` → `available:false` + `isEstimate` + method. Le sizing macro reste une estimation méthodique côté engine. |
+
 ## Règle de dégradation
 
 - **Recherche d'Entreprises / BODACC** (keyless) : si l'API répond en erreur/timeout →

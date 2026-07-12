@@ -64,6 +64,10 @@ function makeSources(over: Partial<DataSources> = {}): DataSources {
     sireneInsee: async () => realResult({ siret: "11100001", denomination: "MENUISERIE 1", naf: "16.23Z", commune: "LYON", codePostal: "69001", dateCreation: "2010-01-01", etat: "A" }, "API Sirene (INSEE)"),
     pappers: async (siren) => degradedResult({ siren, denomination: null, dateCreation: null, chiffreAffaires: null, effectif: null, proceduresCollectives: 0, available: false }, "API Pappers", "quota épuisé", 2),
     bodacc: async () => realResult([{ date: "2026-07-10", type: "Procédures collectives", commercant: "SOLS BOIS", ville: "Mauguio", departement: "34" }], "BODACC (open data)"),
+    // Clients de marché (E4) — non utilisés par E5, stubs de conformité d'interface.
+    countEstablishments: async (p) => realResult({ nafCodes: p.nafCodes, zone: { departement: p.departement ?? null, codeCommune: p.codeCommune ?? null }, activeOnly: Boolean(p.activeOnly), total: 0, capped: false, perNaf: [] }, "Annuaire des Entreprises (data.gouv)"),
+    bodaccTrend: async (p) => realResult({ q: p.q, zone: p.departement ?? null, windowMonths: p.windowMonths ?? 12, recent: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, previous: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, creationsDelta: 0, creationsTrend: "stable" as const }, "BODACC (open data)"),
+    inseeStats: async (p) => degradedResult({ sector: p.sector, indicator: null, value: null, unit: null, period: null, available: false }, "INSEE (statistiques macro-sectorielles — BDM / comptes du commerce)", "BDM non souscrit"),
     ...over,
   };
 }

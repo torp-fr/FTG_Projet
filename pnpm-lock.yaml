@@ -193,6 +193,25 @@ importers:
         specifier: ^5.5.0
         version: 5.9.3
 
+  packages/engine-market-cartographer:
+    dependencies:
+      '@ftg/data-sources':
+        specifier: workspace:*
+        version: link:../data-sources
+      '@ftg/database':
+        specifier: workspace:*
+        version: link:../database
+      '@ftg/engine-sdk':
+        specifier: workspace:*
+        version: link:../engine-sdk
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.1
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+
   packages/engine-sdk:
     dependencies:
       '@anthropic-ai/sdk':

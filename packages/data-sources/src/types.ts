@@ -79,3 +79,70 @@ export interface VitalitySignal {
   ville: string | null;
   departement: string | null;
 }
+
+/** Comptage d'établissements pour un code NAF donné (densité de marché). */
+export interface NafCount {
+  naf: string;
+  /** Nombre d'établissements (total_results). */
+  total: number;
+  /** true si le compte a atteint le plafond de l'API (valeur = plancher, pas exact). */
+  capped: boolean;
+}
+
+/**
+ * Densité de marché RÉELLE : nombre d'établissements (actifs si demandé) par code(s) NAF
+ * et zone, via l'agrégation de Recherche d'Entreprises (total_results). Le comptage
+ * national est plafonné par l'API (cap) → `capped=true` signale un PLANCHER, jamais un
+ * chiffre exact présenté comme tel.
+ */
+export interface MarketDensity {
+  nafCodes: string[];
+  zone: { departement: string | null; codeCommune: string | null };
+  /** true si le comptage a filtré sur les établissements administrativement actifs. */
+  activeOnly: boolean;
+  /** Total agrégé sur l'ensemble des NAF (total_results). */
+  total: number;
+  /** true si le total agrégé a atteint le plafond de l'API. */
+  capped: boolean;
+  /** Détail par code NAF. */
+  perNaf: NafCount[];
+}
+
+/** Fenêtre temporelle de comptage BODACC (créations vs procédures collectives). */
+export interface BodaccWindow {
+  from: string;
+  to: string;
+  creations: number;
+  proceduresCollectives: number;
+}
+
+/**
+ * Tendance de vitalité sectorielle RÉELLE : comptages BODACC datés (créations vs
+ * procédures collectives) sur deux fenêtres consécutives → sens de la tendance.
+ * BODACC n'est PAS indexé par NAF : la recherche s'appuie sur un terme sectoriel
+ * (dérivé des libellés NAF/mots-clés) — méthode déclarée dans la citation.
+ */
+export interface BodaccTrend {
+  q: string;
+  zone: string | null;
+  windowMonths: number;
+  recent: BodaccWindow;
+  previous: BodaccWindow;
+  /** recent.creations − previous.creations. */
+  creationsDelta: number;
+  creationsTrend: "hausse" | "stable" | "baisse";
+}
+
+/**
+ * Cadrage macro-sectoriel (INSEE BDM / comptes du commerce). available=false si la
+ * souscription BDM dédiée n'est pas connectée (distincte de la clé Sirene) → le sizing
+ * macro reste une estimation méthodique côté engine ([E]), jamais un faux chiffre.
+ */
+export interface MacroSizing {
+  sector: string;
+  indicator: string | null;
+  value: number | null;
+  unit: string | null;
+  period: string | null;
+  available: boolean;
+}

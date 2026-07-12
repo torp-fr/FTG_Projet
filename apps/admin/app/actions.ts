@@ -7,6 +7,7 @@ import { getServiceClient } from "@/lib/supabase";
 import { writeAudit } from "@/lib/audit";
 import { IMPERSONATION_COOKIE } from "@/lib/impersonation";
 import { runEngineSmoke, promoteVersion } from "@/lib/engines";
+import { provisionAccount, type AccessLevel } from "@/lib/provisioning";
 
 /**
  * Server actions opérateur. Chaque acte écrit une trace d'audit AVANT tout effet
@@ -90,4 +91,30 @@ export async function promoteVersionAction(formData: FormData): Promise<void> {
   const status = result.promoted ? (result.rollback ? "rolledback" : "promoted") : "refused";
   const reason = result.reason ?? "";
   redirect(`/engines?engine=${encodeURIComponent(engineCode)}&status=${status}&reason=${encodeURIComponent(reason)}`);
+}
+
+/**
+ * Provisioning d'un compte pilote (user + parcours) avec niveau d'accès, rattaché à une org.
+ * La création est tracée par provisionAccount (audit account.provision) — non contournable.
+ */
+export async function provisionAccountAction(formData: FormData): Promise<void> {
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+  const orgId = String(formData.get("orgId") ?? "").trim() || null;
+  const entryDoor = (String(formData.get("entryDoor") ?? "A") === "B" ? "B" : "A") as "A" | "B";
+  const accessLevel = (["freemium", "partiel", "complet"].includes(String(formData.get("accessLevel")))
+    ? String(formData.get("accessLevel"))
+    : "complet") as AccessLevel;
+  const scopePhases = formData.getAll("scopePhases").map((v) => String(v));
+  const projectName = String(formData.get("projectName") ?? "").trim() || `Parcours de ${name || "pilote"}`;
+  const segmentId = String(formData.get("segmentId") ?? "").trim() || null;
+
+  if (!name || !email) {
+    redirect(`/comptes?status=error&reason=${encodeURIComponent("nom et email requis")}`);
+  }
+
+  const result = await provisionAccount({ name, email, orgId, entryDoor, accessLevel, scopePhases, projectName, segmentId });
+
+  revalidatePath("/comptes");
+  redirect(`/comptes?status=created&level=${result.accessLevel}&project=${result.projectId}`);
 }

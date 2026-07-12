@@ -56,6 +56,7 @@ export default async function ProjectSupervisionPage({ params }: { params: Promi
           <span>Segment : {p.segment ?? "—"}</span>
           <span>Ambition : {p.ambition ? AMBITION_LABEL[p.ambition] ?? p.ambition : "—"}</span>
           <span>Porte : {p.entryDoor}</span>
+          <span>Accès : <span className="font-medium text-slate-700">{p.accessLevel ?? "—"}</span></span>
           <span>Phase courante : <span className="font-medium text-slate-700">{p.currentPhase}</span></span>
         </div>
       </div>

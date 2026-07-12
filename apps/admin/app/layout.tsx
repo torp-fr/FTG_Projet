@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <nav className="flex gap-4 text-sm text-slate-600">
               <Link href="/" className="hover:text-slate-900">Supervision</Link>
               <Link href="/engines" className="hover:text-slate-900">Engines</Link>
+              <Link href="/comptes" className="hover:text-slate-900">Comptes</Link>
               <Link href="/audit" className="hover:text-slate-900">Audit</Link>
             </nav>
             <span className="ml-auto text-xs text-slate-400">v1 — opérateur FTG</span>

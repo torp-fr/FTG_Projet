@@ -207,6 +207,7 @@ export interface ProjectSupervision {
   ambition: string | null;
   status: string;
   entryDoor: string;
+  accessLevel: string | null;
   currentPhase: string;
   progression: { doneCount: number; seededCount: number; pct: number };
   jalons: JalonView[];
@@ -222,12 +223,12 @@ export async function getProjectSupervision(id: string): Promise<ProjectSupervis
 
   const { data: pRaw } = await c
     .from("projects")
-    .select("id, name, entry_door, ambition_profile, status, owner_user_id, segment_primary_id, org_id")
+    .select("id, name, entry_door, ambition_profile, status, owner_user_id, segment_primary_id, org_id, access_level")
     .eq("id", id)
     .maybeSingle();
   const p = pRaw as {
     id: string; name: string; entry_door: string; ambition_profile: string | null; status: string;
-    owner_user_id: string; segment_primary_id: string | null; org_id: string | null;
+    owner_user_id: string; segment_primary_id: string | null; org_id: string | null; access_level: string | null;
   } | null;
   if (!p) return null;
 
@@ -335,6 +336,7 @@ export async function getProjectSupervision(id: string): Promise<ProjectSupervis
     ambition: p.ambition_profile,
     status: p.status,
     entryDoor: p.entry_door,
+    accessLevel: p.access_level ?? null,
     currentPhase: deriveCurrentPhase(jalons),
     progression: { doneCount, seededCount, pct: seededCount ? Math.round((100 * doneCount) / seededCount) : 0 },
     jalons,

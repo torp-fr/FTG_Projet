@@ -1336,6 +1336,8 @@ export type Database = {
       }
       projects: {
         Row: {
+          access_level: string
+          access_scope: Json
           ambition_profile: string | null
           created_at: string
           entry_door: string
@@ -1352,6 +1354,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          access_level?: string
+          access_scope?: Json
           ambition_profile?: string | null
           created_at?: string
           entry_door: string
@@ -1368,6 +1372,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          access_level?: string
+          access_scope?: Json
           ambition_profile?: string | null
           created_at?: string
           entry_door?: string

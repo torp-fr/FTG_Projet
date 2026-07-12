@@ -1,7 +1,6 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { getCohort } from "@/lib/data";
-import { VerdictBadge } from "@/components/VerdictBadge";
+import { VerdictBadge, StatTile } from "@ftg/ui-kit";
 
 export const dynamic = "force-dynamic";
 
@@ -11,16 +10,6 @@ const AMBITION_LABEL: Record<string, string> = {
   croissance: "Croissance",
   scale: "Scale",
 };
-
-function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
-      <div className="text-2xl font-semibold text-slate-900">{value}</div>
-      <div className="mt-0.5 text-sm text-slate-500">{label}</div>
-      {hint ? <div className="mt-1 text-xs text-slate-400">{hint}</div> : null}
-    </div>
-  );
-}
 
 export default async function CohortPage() {
   const { rows, kpis, orgName, orgId } = await getCohort();
@@ -54,13 +43,13 @@ export default async function CohortPage() {
 
       {/* Bandeau KPI */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Porteurs" value={kpis.total} />
-        <Stat label="À surveiller" value={kpis.watch} hint="V3 bas · gate à surveiller · en pause" />
-        <Stat
+        <StatTile label="Porteurs" value={kpis.total} />
+        <StatTile label="À surveiller" value={kpis.watch} hint="V3 bas · gate à surveiller · en pause" />
+        <StatTile
           label="Par phase"
           value={<span className="text-base font-medium text-slate-700">{byPhase.map(([p, n]) => `${p}·${n}`).join("   ") || "—"}</span>}
         />
-        <Stat
+        <StatTile
           label="Par verdict"
           value={<span className="text-xs font-normal leading-tight text-slate-600">{byVerdict.map(([v, n]) => `${n}× ${v}`).join(" · ")}</span>}
         />

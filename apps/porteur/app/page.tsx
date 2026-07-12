@@ -1,15 +1,15 @@
-import { getDefaultProjectId } from "@/lib/data";
+import { getMyPrimaryProjectId } from "@/lib/data";
 import { Dashboard } from "@/components/Dashboard";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const id = await getDefaultProjectId();
+  const id = await getMyPrimaryProjectId();
   if (!id) {
     return (
       <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-600">
-        Porteur par défaut introuvable. Lance d’abord{" "}
-        <code className="rounded bg-slate-100 px-1">scripts/seed-demo-cohort.ts</code>.
+        Aucun projet rattaché à votre compte pour l’instant. Contactez votre accompagnateur si
+        vous pensez qu’il s’agit d’une erreur.
       </div>
     );
   }

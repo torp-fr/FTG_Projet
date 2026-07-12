@@ -133,7 +133,7 @@ export interface PromoteResult {
 /** Appelle la fonction base sous verrous (refus si smoke rouge, swap atomique + audit). */
 export async function promoteVersion(versionId: string, smoke: SmokeResult, regressionOk = true): Promise<PromoteResult> {
   const c = getServiceClient();
-  const op = getOperator();
+  const op = await getOperator();
   const { data, error } = await c.rpc("promote_engine_version", {
     p_version_id: versionId,
     p_actor_label: op.label,

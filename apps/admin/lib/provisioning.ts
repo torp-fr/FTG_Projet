@@ -51,6 +51,14 @@ export interface ProvisionResult {
   userId: string;
   projectId: string;
   accessLevel: AccessLevel;
+  loginCreated: boolean;
+  tempPassword: string | null;
+}
+
+/** Mot de passe temporaire (montré une fois à l'opérateur ; le pilote le change à la 1re connexion). */
+function tempPassword(): string {
+  const rnd = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `Ftg-${rnd}!`;
 }
 
 /** Crée le compte pilote (user) + son parcours (project) et trace la création (audit). */
@@ -101,7 +109,23 @@ export async function provisionAccount(input: ProvisionInput): Promise<Provision
   }
   const projectId = proj.id as string;
 
-  // 3. Trace (audit) — création non contournable
+  // 3. Login réel : crée l'auth user et relie public.users.auth_ref → le pilote peut se connecter
+  //    à apps/porteur. Si un login existe déjà pour cet email, on le relie sans échouer.
+  let loginCreated = false;
+  let pwd: string | null = tempPassword();
+  const { data: authUser, error: authErr } = await c.auth.admin.createUser({ email: input.email, password: pwd, email_confirm: true });
+  if (!authErr && authUser?.user) {
+    await c.from("users").update({ auth_ref: authUser.user.id }).eq("id", userId);
+    loginCreated = true;
+  } else {
+    // email déjà connu côté auth : on tente de relier l'auth user existant (pas de nouveau mdp).
+    pwd = null;
+    const { data: list } = await c.auth.admin.listUsers({ page: 1, perPage: 200 });
+    const existing = list?.users.find((u) => u.email?.toLowerCase() === input.email.toLowerCase());
+    if (existing) await c.from("users").update({ auth_ref: existing.id }).eq("id", userId);
+  }
+
+  // 4. Trace (audit) — création non contournable (jamais le mot de passe)
   await writeAudit({
     action: "account.provision",
     targetType: "user",
@@ -114,10 +138,11 @@ export async function provisionAccount(input: ProvisionInput): Promise<Provision
       entryDoor: input.entryDoor,
       accessLevel: input.accessLevel,
       accessScope,
+      loginCreated,
     },
   });
 
-  return { userId, projectId, accessLevel: input.accessLevel };
+  return { userId, projectId, accessLevel: input.accessLevel, loginCreated, tempPassword: pwd };
 }
 
 export interface PilotRow {

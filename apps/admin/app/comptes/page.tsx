@@ -11,14 +11,27 @@ const ACCESS_CLS: Record<string, string> = {
 };
 const PHASES = ["P0", "P1", "P2", "P3", "P4", "P5", "P6"];
 
-function ResultBanner({ status, level, reason }: { status?: string; level?: string; reason?: string }) {
-  if (status === "created") return <div className="rounded-lg border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">Compte pilote créé (niveau {level}). Création tracée dans l’audit.</div>;
+function ResultBanner({ status, level, reason, email, pwd }: { status?: string; level?: string; reason?: string; email?: string; pwd?: string }) {
+  if (status === "created")
+    return (
+      <div className="rounded-lg border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        Compte pilote créé (niveau {level}). Création tracée dans l’audit.
+        {pwd ? (
+          <div className="mt-1 text-emerald-900">
+            Login : <code className="rounded bg-white/70 px-1">{email}</code> · mot de passe temporaire (à communiquer une fois) :{" "}
+            <code className="rounded bg-white/70 px-1 font-semibold">{pwd}</code>
+          </div>
+        ) : (
+          <div className="mt-1 text-emerald-900">Login relié à un compte existant pour {email}.</div>
+        )}
+      </div>
+    );
   if (status === "error") return <div className="rounded-lg border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-800">Échec : {reason || "données invalides"}.</div>;
   return null;
 }
 
-export default async function ComptesPage({ searchParams }: { searchParams: Promise<{ status?: string; level?: string; reason?: string }> }) {
-  const { status, level, reason } = await searchParams;
+export default async function ComptesPage({ searchParams }: { searchParams: Promise<{ status?: string; level?: string; reason?: string; email?: string; pwd?: string }> }) {
+  const { status, level, reason, email, pwd } = await searchParams;
   const [orgs, segments, pilots] = await Promise.all([getOrgOptions(), getSegmentOptions(), listPilotAccounts()]);
 
   return (
@@ -31,7 +44,7 @@ export default async function ComptesPage({ searchParams }: { searchParams: Prom
         </p>
       </div>
 
-      <ResultBanner status={status} level={level} reason={reason} />
+      <ResultBanner status={status} level={level} reason={reason} email={email} pwd={pwd} />
 
       <form action={provisionAccountAction} className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:grid-cols-2">
         <label className="flex flex-col gap-1 text-xs text-slate-500">

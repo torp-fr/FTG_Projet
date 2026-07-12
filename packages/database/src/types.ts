@@ -1627,18 +1627,21 @@ export type Database = {
           auth_ref: string | null
           created_at: string
           id: string
+          is_operator: boolean
           profile: Json
         }
         Insert: {
           auth_ref?: string | null
           created_at?: string
           id?: string
+          is_operator?: boolean
           profile?: Json
         }
         Update: {
           auth_ref?: string | null
           created_at?: string
           id?: string
+          is_operator?: boolean
           profile?: Json
         }
         Relationships: []
@@ -1725,12 +1728,14 @@ export type Database = {
         Returns: boolean
       }
       ftg_current_user_id: { Args: never; Returns: string }
+      ftg_is_operator: { Args: never; Returns: boolean }
       ftg_is_org_admin: { Args: { p_org_id: string }; Returns: boolean }
       ftg_is_org_member_of_project: {
         Args: { p_project_id: string }
         Returns: boolean
       }
       ftg_is_project_owner: { Args: { p_project_id: string }; Returns: boolean }
+      ftg_shares_org_cohort: { Args: { p_user_id: string }; Returns: boolean }
       promote_engine_version: {
         Args: {
           p_actor_label: string

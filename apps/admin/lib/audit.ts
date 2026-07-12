@@ -42,7 +42,7 @@ export interface AuditRow {
 /** Insère une ligne d'audit horodatée, opérateur identifié. Lève si l'écriture échoue (fail-closed). */
 export async function writeAudit(input: AuditInput): Promise<{ id: string; created_at: string }> {
   const c = getServiceClient();
-  const op = getOperator();
+  const op = await getOperator();
   const { data, error } = await c
     .from("admin_audit_log")
     .insert({

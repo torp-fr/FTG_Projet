@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getServiceClient } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { writeAudit } from "@/lib/audit";
 import { IMPERSONATION_COOKIE } from "@/lib/impersonation";
 import { runEngineSmoke, promoteVersion } from "@/lib/engines";
@@ -14,6 +15,12 @@ import { provisionAccount, type AccessLevel } from "@/lib/provisioning";
  * (cookie/redirect) — l'audit est non contournable (fail-closed : si writeAudit lève,
  * l'action s'interrompt sans effet).
  */
+
+export async function signOut(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}
 
 export async function startImpersonation(formData: FormData): Promise<void> {
   const projectId = String(formData.get("projectId") ?? "");
@@ -76,8 +83,6 @@ export async function endImpersonation(formData: FormData): Promise<void> {
 /**
  * Promotion d'une version d'engine : déclenche le smoke réel puis promeut via la fonction base
  * sous verrous (refus si smoke rouge, exactement une active, audit dans la même transaction).
- * Le résultat (promue / refusée + raison) est passé à la page via query params, sans écriture
- * supplémentaire (l'audit est fait par la fonction base).
  */
 export async function promoteVersionAction(formData: FormData): Promise<void> {
   const versionId = String(formData.get("versionId") ?? "");
@@ -116,5 +121,6 @@ export async function provisionAccountAction(formData: FormData): Promise<void> 
   const result = await provisionAccount({ name, email, orgId, entryDoor, accessLevel, scopePhases, projectName, segmentId });
 
   revalidatePath("/comptes");
-  redirect(`/comptes?status=created&level=${result.accessLevel}&project=${result.projectId}`);
+  const pwd = result.tempPassword ? `&pwd=${encodeURIComponent(result.tempPassword)}` : "";
+  redirect(`/comptes?status=created&level=${result.accessLevel}&email=${encodeURIComponent(email)}${pwd}`);
 }

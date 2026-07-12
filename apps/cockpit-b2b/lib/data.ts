@@ -1,5 +1,7 @@
 import "server-only";
-import { getServiceClient, DEMO_ORG_NAME } from "./supabase";
+import { createSupabaseServerClient } from "./supabase/server";
+
+type SessionClient = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
 export const PHASE_ORDER = ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"];
 
@@ -70,15 +72,15 @@ interface GateEval {
   evaluatedAt: string;
 }
 
-const EMPTY_COHORT = (orgId: string | null): CohortData => ({
+const EMPTY_COHORT = (orgId: string | null, orgName: string): CohortData => ({
   orgId,
-  orgName: DEMO_ORG_NAME,
+  orgName,
   rows: [],
   kpis: { total: 0, byPhase: {}, byVerdict: {}, watch: 0 },
 });
 
 async function idNameMap(
-  c: ReturnType<typeof getServiceClient>,
+  c: SessionClient,
   table: "segments" | "gates" | "milestones",
   col: "name" | "code",
   ids: string[],
@@ -91,10 +93,13 @@ async function idNameMap(
 }
 
 export async function getCohort(): Promise<CohortData> {
-  const c = getServiceClient();
-  const { data: org } = await c.from("organizations").select("id").eq("name", DEMO_ORG_NAME).maybeSingle();
-  const orgId = (org as { id: string } | null)?.id ?? null;
-  if (!orgId) return EMPTY_COHORT(null);
+  const c = await createSupabaseServerClient();
+  // La RLS ne renvoie que les organisations dont le conseiller connecté est membre.
+  const { data: org } = await c.from("organizations").select("id, name").order("name").limit(1).maybeSingle();
+  const orgRow = org as { id: string; name: string } | null;
+  const orgId = orgRow?.id ?? null;
+  const orgName = orgRow?.name ?? "Aucune organisation";
+  if (!orgId) return EMPTY_COHORT(null, orgName);
 
   const { data: projectsRaw } = await c
     .from("projects")
@@ -105,7 +110,7 @@ export async function getCohort(): Promise<CohortData> {
     id: string; name: string; entry_door: string; ambition_profile: string | null;
     status: string; owner_user_id: string; segment_primary_id: string | null;
   }>;
-  if (projects.length === 0) return EMPTY_COHORT(orgId);
+  if (projects.length === 0) return EMPTY_COHORT(orgId, orgName);
   const ids = projects.map((p) => p.id);
 
   const { data: usersRaw } = await c.from("users").select("id, profile").in("id", projects.map((p) => p.owner_user_id));
@@ -147,7 +152,7 @@ export async function getCohort(): Promise<CohortData> {
   });
 
   return {
-    orgId, orgName: DEMO_ORG_NAME, rows,
+    orgId, orgName, rows,
     kpis: { total: rows.length, byPhase: count(rows.map((r) => r.currentPhase)), byVerdict: count(rows.map((r) => r.verdict ?? "—")), watch: rows.filter((r) => r.watch).length },
   };
 }
@@ -199,7 +204,7 @@ function phaseState(states: string[]): PhaseStep["state"] {
 }
 
 export async function getProject(id: string): Promise<ProjectView | null> {
-  const c = getServiceClient();
+  const c = await createSupabaseServerClient();
   const { data: pRaw } = await c
     .from("projects")
     .select("id, name, entry_door, ambition_profile, status, owner_user_id, segment_primary_id")

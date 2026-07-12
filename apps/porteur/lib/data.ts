@@ -1,5 +1,7 @@
 import "server-only";
-import { getServiceClient, DEFAULT_PROJECT_NAME } from "./supabase";
+import { createSupabaseServerClient } from "./supabase/server";
+
+type SessionClient = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
 const PHASE_ORDER = ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"];
 const phaseOf = (code: string) => code.split("-")[0] ?? "P0";
@@ -7,7 +9,7 @@ const orderOf = (ph: string) => PHASE_ORDER.indexOf(ph);
 const maxPhase = (codes: string[]) => codes.reduce((best, p) => (orderOf(p) > orderOf(best) ? p : best), "P0");
 
 async function idMap(
-  c: ReturnType<typeof getServiceClient>,
+  c: SessionClient,
   table: "segments" | "gates" | "milestones",
   col: "name" | "code",
   ids: string[],
@@ -20,9 +22,13 @@ async function idMap(
   return m;
 }
 
-export async function getDefaultProjectId(): Promise<string | null> {
-  const c = getServiceClient();
-  const { data } = await c.from("projects").select("id").eq("name", DEFAULT_PROJECT_NAME).maybeSingle();
+/**
+ * Projet du porteur CONNECTÉ. La RLS ne renvoie que ses propres projets (owner) ; on prend le
+ * plus ancien comme parcours principal. null si le porteur n'a pas (encore) de projet.
+ */
+export async function getMyPrimaryProjectId(): Promise<string | null> {
+  const c = await createSupabaseServerClient();
+  const { data } = await c.from("projects").select("id").order("created_at", { ascending: true }).limit(1).maybeSingle();
   return (data as { id: string } | null)?.id ?? null;
 }
 
@@ -89,7 +95,7 @@ function phaseState(states: string[]): PhaseNode["state"] {
 }
 
 export async function getPorteurDashboard(projectId: string): Promise<PorteurDashboard | null> {
-  const c = getServiceClient();
+  const c = await createSupabaseServerClient();
 
   const { data: pRaw } = await c
     .from("projects")

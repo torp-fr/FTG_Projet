@@ -54,10 +54,12 @@ export function resolveModel(
   return overrides?.[tier] ?? fromEnv[tier] ?? defaults[tier];
 }
 
-/** Budget de sortie par tier (non-streaming, sous le seuil de timeout SDK). */
+/** Budget de sortie par tier (non-streaming, sous le seuil de timeout SDK). Le tier
+ *  intermédiaire monte à 8000 : certaines tâches (ex. génération de portefeuille) ont
+ *  une sortie JSON volumineuse qui tronquait à 4096. */
 const MAX_TOKENS_BY_TIER: Record<LlmTier, number> = {
   petit: 4096,
-  intermediaire: 4096,
+  intermediaire: 8000,
   frontier: 8000,
 };
 

@@ -146,3 +146,19 @@ export interface MacroSizing {
   period: string | null;
   available: boolean;
 }
+
+/**
+ * Texte juridique récupéré via Légifrance (API PISTE / DILA). `dateVersion` porte la
+ * FRAÎCHEUR de la règle (les textes changent : toute citation doit être datée).
+ * available=false si l'API n'a pas répondu (OAuth incomplet / indisponible) → l'engine
+ * bascule sur une référence datée [E] + renvoi professionnel, jamais un faux texte.
+ */
+export interface LegalText {
+  articleId: string | null;
+  title: string | null;
+  excerpt: string | null;
+  /** Date de version du texte (fraîcheur), ISO. */
+  dateVersion: string | null;
+  url: string | null;
+  available: boolean;
+}

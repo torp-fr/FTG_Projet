@@ -24,6 +24,9 @@ Chaque appel renvoie un `SourceResult<T>` : `{ data, citation, degraded, waterfa
 | `sireneInsee` | API Sirene (INSEE) | `INSEE_SIRENE_API_KEY` (en-tête `X-INSEE-Api-Key-Integration`) | N1 | `GET https://api.insee.fr/api-sirene/3.11/siret/{siret}` (nouveau portail portail-api.insee.fr) |
 | `pappers` | API Pappers | `PAPPERS_API_KEY` (`api_token`) | N2 | `GET https://api.pappers.fr/v2/entreprise?siren={siren}` |
 | `bodacc` | BODACC (open data) | **keyless** | N1 | `GET https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/.../records` (opendatasoft) |
+| `legifrancePiste` | Légifrance (API PISTE / DILA) | OAuth2 `client_credentials` (`PISTE_CLIENT_ID` + `PISTE_CLIENT_SECRET`, ou `PISTE_LEGIFRANCE_API_KEY` au format `id:secret`) | N1 | `POST https://oauth.piste.gouv.fr/api/oauth/token` → `POST https://api.piste.gouv.fr/dila/legifrance/lf-engine-app/consult/getArticle` |
+
+> **Légifrance/PISTE (E7).** Jeton OAuth `client_credentials` **mis en cache et rafraîchi** avant expiration, puis récupération d'article Légifrance daté (`dateVersion` = fraîcheur). ⚠️ Le flux exige un `client_id` **ET** un `client_secret` : si seul un `client_id` est présent (ou l'API indisponible), le client **dégrade proprement** (`available:false` + `isEstimate` + method) — l'engine bascule alors sur une référence datée [E] + renvoi professionnel, **jamais** un faux texte de loi. Ajouter `PISTE_CLIENT_SECRET` active la récupération réelle sans changement de code.
 
 ### Agrégations de marché (E4 · Le Cartographe)
 

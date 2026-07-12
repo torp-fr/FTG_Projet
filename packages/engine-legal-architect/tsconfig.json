@@ -1,0 +1,18 @@
+{
+  // E7 consomme @ftg/deterministic-core EN SOURCE (imports ".ts" internes au moteur pur,
+  // cf. son tsconfig). On active donc allowImportingTsExtensions (+ noEmit) comme prévu
+  // par la conception de deterministic-core. Les imports internes d'E7 restent en ".js"
+  // (convention NodeNext) ; aucun artefact de build n'est émis (pas de script build).
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

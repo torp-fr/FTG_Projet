@@ -68,6 +68,7 @@ function makeSources(over: Partial<DataSources> = {}): DataSources {
     bodacc: async () => realResult([], "BODACC (open data)"),
     bodaccTrend: async (p) => realResult({ q: p.q, zone: p.departement ?? null, windowMonths: 12, recent: { from: "2025-07-12", to: "2026-07-12", creations: 25, proceduresCollectives: 71 }, previous: { from: "2024-07-12", to: "2025-07-12", creations: 38, proceduresCollectives: 60 }, creationsDelta: -13, creationsTrend: "baisse" as const }, "BODACC (open data)"),
     inseeStats: async (p) => degradedResult({ sector: p.sector, indicator: null, value: null, unit: null, period: null, available: false }, "INSEE (statistiques macro-sectorielles — BDM / comptes du commerce)", "BDM non souscrit — sizing macro en [E]"),
+    legifrancePiste: async (p) => degradedResult({ articleId: p.articleId, title: p.label ?? null, excerpt: null, dateVersion: null, url: null, available: false }, "Légifrance (API PISTE / DILA)", "OAuth PISTE non configuré"),
     ...over,
   };
 }

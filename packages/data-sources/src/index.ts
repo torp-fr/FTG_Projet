@@ -11,16 +11,19 @@ export * from "./sirene-insee.js";
 export * from "./pappers.js";
 export * from "./bodacc.js";
 export * from "./insee-stats.js";
+export * from "./legifrance-piste.js";
 
 import { rechercheEntreprises, countEstablishments, type RechercheParams, type DensityParams } from "./recherche-entreprises.js";
 import { sireneInsee } from "./sirene-insee.js";
 import { pappers } from "./pappers.js";
 import { bodacc, bodaccTrend, type BodaccParams, type BodaccTrendParams } from "./bodacc.js";
 import { inseeStats, type InseeStatsParams } from "./insee-stats.js";
+import { legifrancePiste, type LegifranceParams } from "./legifrance-piste.js";
 import type {
   Competitor,
   CompanyFinancials,
   EstablishmentInfo,
+  LegalText,
   MacroSizing,
   MarketDensity,
   BodaccTrend,
@@ -40,9 +43,11 @@ export interface DataSources {
   bodaccTrend(params: BodaccTrendParams): Promise<SourceResult<BodaccTrend>>;
   /** Cadrage macro-sectoriel INSEE (dégrade en [E] si BDM non souscrit). */
   inseeStats(params: InseeStatsParams): Promise<SourceResult<MacroSizing>>;
+  /** Texte juridique daté via Légifrance/PISTE (dégrade en [E] si OAuth indisponible). */
+  legifrancePiste(params: LegifranceParams): Promise<SourceResult<LegalText>>;
 }
 
 /** Clients réels (lisant l'env serveur). */
 export function createDataSources(): DataSources {
-  return { rechercheEntreprises, countEstablishments, sireneInsee, pappers, bodacc, bodaccTrend, inseeStats };
+  return { rechercheEntreprises, countEstablishments, sireneInsee, pappers, bodacc, bodaccTrend, inseeStats, legifrancePiste };
 }

@@ -68,6 +68,7 @@ function makeSources(over: Partial<DataSources> = {}): DataSources {
     countEstablishments: async (p) => realResult({ nafCodes: p.nafCodes, zone: { departement: p.departement ?? null, codeCommune: p.codeCommune ?? null }, activeOnly: Boolean(p.activeOnly), total: 0, capped: false, perNaf: [] }, "Annuaire des Entreprises (data.gouv)"),
     bodaccTrend: async (p) => realResult({ q: p.q, zone: p.departement ?? null, windowMonths: p.windowMonths ?? 12, recent: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, previous: { from: "", to: "", creations: 0, proceduresCollectives: 0 }, creationsDelta: 0, creationsTrend: "stable" as const }, "BODACC (open data)"),
     inseeStats: async (p) => degradedResult({ sector: p.sector, indicator: null, value: null, unit: null, period: null, available: false }, "INSEE (statistiques macro-sectorielles — BDM / comptes du commerce)", "BDM non souscrit"),
+    legifrancePiste: async (p) => degradedResult({ articleId: p.articleId, title: p.label ?? null, excerpt: null, dateVersion: null, url: null, available: false }, "Légifrance (API PISTE / DILA)", "OAuth PISTE non configuré"),
     ...over,
   };
 }

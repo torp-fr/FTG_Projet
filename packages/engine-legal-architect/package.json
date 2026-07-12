@@ -1,0 +1,23 @@
+{
+  "name": "@ftg/engine-legal-architect",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E7 — Structure juridique « L'Architecte » (Chantier 5, cadre D7/A5.8). Comparateur de statuts via @ftg/deterministic-core, Légifrance (PISTE OAuth) daté, vérif SIRET Sirene. Posture information/guidage stricte : jamais de conseil juridique personnalisé. Conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/data-sources": "workspace:*",
+    "@ftg/database": "workspace:*",
+    "@ftg/deterministic-core": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

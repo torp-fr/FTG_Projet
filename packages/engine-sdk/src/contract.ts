@@ -25,6 +25,37 @@ export const FORBIDDEN_FEASIBILITY_TERMS = [
   "vous ne devriez pas",
 ] as const;
 
+/**
+ * D7 / A5.8 — Posture information & guidage (engine E7 « Structure juridique »).
+ * L'engine INFORME et GUIDE, il ne délivre JAMAIS de conseil juridique personnalisé
+ * (« je vous conseille le statut X », « le meilleur statut pour vous »…). Ces tournures
+ * de consultation sont proscrites du livrable : toujours un comparatif factuel + « le
+ * choix vous appartient » + renvoi vers un professionnel. Détection lexicale de premier
+ * niveau — la vraie garantie vient de la rubrique d'éval, mais aucun de ces termes ne
+ * doit jamais apparaître tel quel dans un livrable E7.
+ *
+ * Choix des termes : tournures de RECOMMANDATION PERSONNELLE sans ambiguïté. On évite
+ * volontairement « vous devez » ou « opter pour » seuls (obligations/vocabulaire fiscal
+ * factuels : « vous devez déclarer votre activité », « vous pouvez opter pour le réel »).
+ */
+export const FORBIDDEN_LEGAL_ADVICE_TERMS = [
+  "je vous conseille",
+  "je vous recommande",
+  "nous vous conseillons",
+  "nous vous recommandons",
+  "je vous préconise",
+  "je préconise",
+  "vous devriez choisir",
+  "vous devriez opter",
+  "optez pour",
+  "choisissez le statut",
+  "le meilleur statut pour vous",
+  "le statut le mieux adapté pour vous",
+  "le statut idéal pour vous",
+  "le bon statut pour vous",
+  "à votre place",
+] as const;
+
 export interface ContractViolation {
   rule: string;
   detail: string;
@@ -42,6 +73,25 @@ export function checkFactualNeutrality(contentMd: string): ContractViolation[] {
       violations.push({
         rule: "D25_factual_neutrality",
         detail: `Terme de jugement de faisabilité détecté : "${term}"`,
+      });
+    }
+  }
+  return violations;
+}
+
+/**
+ * D7 / A5.8 — Vérifie qu'aucun terme de CONSEIL JURIDIQUE PERSONNALISÉ n'apparaît dans le
+ * livrable (engine E7). Modèle identique à checkFactualNeutrality. run.ts de E7 l'applique
+ * AVANT de retourner l'enveloppe et REJETTE si une violation est détectée.
+ */
+export function checkLegalAdviceNeutrality(contentMd: string): ContractViolation[] {
+  const lower = contentMd.toLowerCase();
+  const violations: ContractViolation[] = [];
+  for (const term of FORBIDDEN_LEGAL_ADVICE_TERMS) {
+    if (lower.includes(term)) {
+      violations.push({
+        rule: "D7_legal_advice_neutrality",
+        detail: `Terme de conseil juridique personnalisé détecté : "${term}"`,
       });
     }
   }

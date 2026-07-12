@@ -15,6 +15,7 @@
 import assert from "node:assert/strict";
 import { deriveMilestoneStates } from "../src/sequencer.js";
 import { evaluateGate } from "../src/gatekeeper.js";
+import { P0_P6_PLAN, selectNextStep, selectTier } from "../src/router.js";
 import type {
   DependencyDef,
   GateDef,
@@ -177,12 +178,89 @@ function step4_p1UnlockedAfterG0() {
   console.log("✓ Étape 4 — G0 validé : P1-J1 déverrouillé (recommandé), P1-J2/J3 toujours verrouillés en aval");
 }
 
-// --- Exécution séquentielle du scénario P0 → G0 → P1 ---
+// ─────────────────────────────────────────────────────────────────────────────
+// JC-05 — Orchestration P0→P6 : plan de couverture + sélection + progression multi-phase.
+// (Le run RÉEL bout-en-bout est scripts/orchestrated-run.ts ; ici, fixtures pures.)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// --- Étape 5 : le Router parcourt le plan P0→P6 dans l'ordre, E6 marqué différé ---
+
+function step5_planCoversP0toP6() {
+  const phases = [...new Set(P0_P6_PLAN.map((s) => s.phaseCode))];
+  assert.deepEqual(phases, ["P0", "P1", "P2", "P3", "P5", "P6"], "le plan couvre P0→P6 (P4 hors périmètre, P3 différé)");
+
+  const deferred = P0_P6_PLAN.filter((s) => s.deferred);
+  assert.equal(deferred.length, 1, "exactement une étape différée");
+  assert.equal(deferred[0]!.engineCode, "proof_witness", "E6 (proof_witness) est l'engine différé");
+
+  // selectNextStep parcourt tout le plan dans l'ordre sans jamais bloquer.
+  const completed = new Set<number>();
+  const order: string[] = [];
+  let s = selectNextStep(P0_P6_PLAN, completed);
+  while (s) {
+    order.push(`${s.phaseCode}:${s.engineCode}`);
+    completed.add(s.order);
+    s = selectNextStep(P0_P6_PLAN, completed);
+  }
+  assert.equal(order.length, 9, "9 étapes sélectionnées (E1,E2,E3,E4,E5,E6†,E7,E8,E9)");
+  assert.equal(order[0], "P0:founder_profiler");
+  assert.equal(order[8], "P6:name_forge");
+  console.log(`✓ Étape 5 — plan P0→P6 : ${order.length} étapes, E6 différé (DAG non bloqué)`);
+}
+
+// --- Étape 6 : sélection du tier LLM depuis model_routing ---
+
+function step6_tierFromModelRouting() {
+  assert.equal(selectTier({ dominant: "frontier" }), "frontier");
+  assert.equal(selectTier({ dominant: "déterministe_petit" }), "petit");
+  assert.equal(selectTier({ dominant: "api_intermediaire" }), "intermediaire");
+  assert.equal(selectTier(null), "intermediaire", "fallback sûr = intermediaire");
+  console.log("✓ Étape 6 — tier LLM dérivé de model_routing (frontier/petit/intermediaire, fallback sûr)");
+}
+
+// --- Étape 7 : progression multi-phase — après G1 validé, P2 se déverrouille ---
+
+function step7_p2UnlockedAfterG1() {
+  const milestones: MilestoneDef[] = [
+    ...MILESTONES,
+    { id: "m-p2-j1", code: "P2-J1", phaseCode: "P2" },
+    { id: "m-p2-j2", code: "P2-J2", phaseCode: "P2" },
+  ];
+  const dependencies: DependencyDef[] = [
+    ...DEPENDENCIES,
+    { milestoneCode: "P2-J1", dependsOnCode: "P1-J3", hardness: "hard" }, // frontière P1→P2 (ancre G1)
+    { milestoneCode: "P2-J2", dependsOnCode: "P2-J1", hardness: "hard" },
+  ];
+  const gateG1: GateDef = { code: "G1", phaseCode: "P1", weights: { V2: 50, V3: 50 }, threshold: 60, criticalFloors: { V3: 45 }, verdictPolicy: { max_reserves: 3 } };
+
+  // Tout P0/P1 done, G0 ET G1 favorables → P2-J1 doit se déverrouiller.
+  const projectMilestones: ProjectMilestoneRecord[] = [
+    "P0-J1", "P0-J2", "P0-J3", "P0-J4", "P0-J5", "P1-J1", "P1-J2", "P1-J3",
+  ].map((code) => ({ milestoneCode: code, state: "done" as const }));
+  const gateEvaluations: GateEvaluationRecord[] = [
+    { gateCode: "G0", verdict: "validated", computedScores: {} },
+    { gateCode: "G1", verdict: "validated_with_reserves", computedScores: {} },
+  ];
+
+  const states = deriveMilestoneStates({ milestones, dependencies, projectMilestones, gates: [GATE_G0, gateG1], gateEvaluations });
+  assert.equal(states["P2-J1"], "recommended", "P2-J1 déverrouillé (recommandé) après G1 favorable");
+  assert.equal(states["P2-J2"], "locked", "P2-J2 reste verrouillé en aval");
+
+  // Sans verdict G1, P2 doit rester verrouillé (franchissement de phase exige le gate).
+  const statesNoG1 = deriveMilestoneStates({ milestones, dependencies, projectMilestones, gates: [GATE_G0, gateG1], gateEvaluations: [gateEvaluations[0]!] });
+  assert.equal(statesNoG1["P2-J1"], "locked", "P2-J1 verrouillé tant que G1 n'a pas rendu de verdict favorable");
+  console.log("✓ Étape 7 — progression multi-phase : G1 validé → P2 déverrouillé (sinon verrouillé)");
+}
+
+// --- Exécution séquentielle du scénario P0 → G0 → P1 → … → P6 ---
 
 step1_freshProject();
 step2_p0DoneNoGateYet();
 step3_gatekeeperComputesG0();
 step3bis_gatekeeperG0ConditionsNotMet();
 step4_p1UnlockedAfterG0();
+step5_planCoversP0toP6();
+step6_tierFromModelRouting();
+step7_p2UnlockedAfterG1();
 
-console.log("\n✅ Lot 1 — critère de fin validé : progression DAG P0→P1 avec verdict de gate calculé côté serveur (fixtures).");
+console.log("\n✅ Orchestration validée : progression DAG P0→P1→P2 (verdicts gate côté serveur) + plan P0→P6 avec E6 différé (fixtures).");

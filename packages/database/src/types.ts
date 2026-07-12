@@ -599,6 +599,41 @@ export type Database = {
           },
         ]
       }
+      events: {
+        Row: {
+          actor: string | null
+          created_at: string
+          id: string
+          payload: Json
+          project_id: string | null
+          type: string
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_id?: string | null
+          type: string
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       founder_profiles: {
         Row: {
           builder_vs_opportunist_reading: string | null

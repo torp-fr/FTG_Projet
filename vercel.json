@@ -1,4 +1,4 @@
 {
   "installCommand": "pnpm install --frozen-lockfile",
-  "ignoreCommand": "echo 'FTG: aucune app frontend livree (Lot 2 a venir) - build volontairement ignore, voir docs/ops/vercel-status.md' && exit 0"
+  "ignoreCommand": "echo 'FTG (JC-08a): chaque app se deploie dans SON projet Vercel via Root Directory (apps/porteur | apps/cockpit-b2b | apps/admin), lisant son propre apps/*/vercel.json. Un build a la RACINE du repo n est pas utilise et reste ignore. Voir docs/ops/vercel-status.md.' && exit 0"
 }

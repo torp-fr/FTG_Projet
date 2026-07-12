@@ -31,3 +31,19 @@ Note : aucun mécanisme de promotion applicatif (`version.promote` sous verrou
 anti-régression) n'existe encore côté code — la promotion a été faite en SQL après
 validation du smoke. À terme, câbler la promotion sur `eval_runs.passed` (cf. commentaire
 de la table `engine_versions` : « candidate ne devient active que si eval_runs.passed = true »).
+
+## JC-07 — S1 : mécanisme `version.promote` codifié (2026-07-12)
+
+Le mécanisme applicatif manquant existe désormais (migration `013_version_promote.sql`) :
+
+- **`promote_engine_version(version_id, actor_label, smoke_passed, smoke_details, regression_ok)`** —
+  fonction base `security definer` (EXECUTE révoqué au client) : promeut `candidate → active`
+  **seulement si** `smoke_passed` **ET** `regression_ok`, sinon **refus explicite tracé** ;
+  swap transactionnel (retire l'ancienne active, active la cible) ; rollback = re-promotion
+  (`retired → active`). Chaque promotion / refus / rollback est écrit dans `admin_audit_log`
+  **dans la même transaction** (état et trace indissociables).
+- **Verrou d'invariant** : index unique partiel `uq_engine_versions_one_active` →
+  **exactement une** version `active` par engine, garanti physiquement.
+- La console admin (`apps/admin`, page `/engines`) déclenche le smoke puis appelle cette
+  fonction ; le smoke LLM complet reste dans `scripts/e*-smoke-test.ts` et peut alimenter
+  `smoke_passed`. Vérifié par `scripts/jc07-promote-test.ts`.

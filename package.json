@@ -13,7 +13,8 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r --if-present test"
+    "test": "pnpm -r --if-present test",
+    "test:jc07": "tsx scripts/jc07-audit-test.ts && tsx scripts/jc07-promote-test.ts && tsx scripts/jc07-provision-test.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

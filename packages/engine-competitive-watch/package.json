@@ -1,0 +1,22 @@
+{
+  "name": "@ftg/engine-competitive-watch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Engine E5 — Concurrence « La Vigie » (Chantier 5). Cartographie concurrentielle sur données réelles (Recherche d'Entreprises, Sirene, Pappers, BODACC), waterfall réel, 3 voies de positionnement. Conforme au contrat @ftg/engine-sdk.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@ftg/data-sources": "workspace:*",
+    "@ftg/database": "workspace:*",
+    "@ftg/engine-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

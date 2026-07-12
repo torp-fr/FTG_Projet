@@ -1,0 +1,17 @@
+{
+  "name": "@ftg/data-sources",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Couche de clients de sources de données FR (Recherche d'Entreprises, Sirene INSEE, Pappers, BODACC) — typés, server-only, avec dégradation propre (grounding honnête) et métadonnées de citation (A5.4).",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -10,8 +10,10 @@ import type { LegalText, SourceResult } from "@ftg/data-sources";
 import { citationToSource, researchDepth, safeSource, type E7Handler } from "../deps.js";
 import { REGULATORY_CHECKLIST_SYSTEM } from "../prompts/regulatory-checklist.js";
 
-/** Référence Légifrance par défaut : qualification artisanale (Loi n° 96-603, art. 16). */
-const DEFAULT_ARTICLE = { articleId: "LEGIARTI000006451473", label: "Loi n° 96-603 du 5 juillet 1996 (art. 16) — qualification artisanale" };
+/** Référence Légifrance par défaut : qualification professionnelle artisanale (Code de
+ *  l'artisanat, art. L121-1). Identifiant d'article VÉRIFIÉ via l'API Légifrance/PISTE
+ *  (getArticle → num « L121-1 », en vigueur depuis 2023-07-01). */
+const DEFAULT_ARTICLE = { articleId: "LEGIARTI000047362238", label: "Code de l'artisanat, art. L121-1 — qualification professionnelle artisanale" };
 
 interface ChecklistItemJson {
   obligation?: string;
@@ -110,6 +112,19 @@ export const regulatoryChecklist: E7Handler = async (input, deps) => {
         // Force le drapeau hard sur l'item correspondant.
         const it = items.find((x) => x.obligation.toLowerCase().includes(m.obligation.slice(0, 12).toLowerCase()));
         if (it) it.hard_dependency = true;
+      }
+    }
+  }
+
+  // BASCULE : si le texte Légifrance est RÉEL, l'obligation de QUALIFICATION (art. L121-1)
+  // n'est plus une estimation — elle porte la référence réelle + la date de version du texte.
+  if (legal.data.available) {
+    for (const it of items) {
+      if (/qualification/i.test(it.obligation)) {
+        it.is_estimate = false;
+        it.reference = `${legal.data.title ?? label} (Légifrance)`;
+        it.date_verification = legal.data.dateVersion ?? it.date_verification;
+        it.method = "";
       }
     }
   }

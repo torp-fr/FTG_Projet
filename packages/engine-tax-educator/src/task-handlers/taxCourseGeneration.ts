@@ -12,8 +12,10 @@ import { citationToSource, researchDepth, safeSource, BAREMES_VERIF_DATE, type E
 import { baremesForActivity } from "../baremes.js";
 import { TAX_COURSE_SYSTEM } from "../prompts/tax-course.js";
 
-/** Référence fiscale par défaut (CGI/BOFiP — cadre TVA & régimes). Dégrade en [E] si PISTE indispo. */
-const DEFAULT_ARTICLE = { articleId: "LEGIARTI000006309427", label: "Code général des impôts — franchise en base de TVA (art. 293 B)" };
+/** Référence fiscale par défaut : CGI art. 293 B (franchise en base de TVA). Identifiant
+ *  d'article VÉRIFIÉ via l'API Légifrance/PISTE (getArticle → num « 293 B », en vigueur
+ *  depuis 2025-03-01). Dégrade en [E] si PISTE indisponible. */
+const DEFAULT_ARTICLE = { articleId: "LEGIARTI000052488142", label: "Code général des impôts, art. 293 B — franchise en base de TVA" };
 
 interface CourseJson {
   levels?: { beginner?: string; intermediate?: string; advanced?: string };

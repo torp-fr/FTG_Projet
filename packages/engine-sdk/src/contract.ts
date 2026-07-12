@@ -53,7 +53,9 @@ export const FORBIDDEN_LEGAL_ADVICE_TERMS = [
   "le statut le mieux adapté pour vous",
   "le statut idéal pour vous",
   "le bon statut pour vous",
-  "à votre place",
+  // NB : « à votre place » a été retiré — trop ambigu : il apparaît dans les disclaimers
+  // LÉGITIMES de guidage (« l'engine ne fait rien à votre place ») et générait des faux
+  // positifs. Le conseil personnalisé reste capté par les tournures explicites ci-dessus.
 ] as const;
 
 export interface ContractViolation {

@@ -2,8 +2,17 @@ import "@ftg/ui-kit/tokens.css";
 import "./globals.css";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { IBM_Plex_Sans, IBM_Plex_Mono, Newsreader } from "next/font/google";
 import { getSessionUser } from "@/lib/auth";
 import { signOut } from "@/app/actions";
+
+// Habillage « Le Cabinet » (JC-08b) — 3 familles, déclarées UNE fois, exposées en vars CSS et
+// référencées par le fontFamily du preset ui-kit. IBM Plex Sans = corps/UI (défaut) ; Newsreader
+// (display) et IBM Plex Mono (mesure) sont chargées et disponibles (application par rôle : JC-08c).
+const fontBody = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], display: "swap", variable: "--ftg-font-body" });
+const fontDisplay = Newsreader({ subsets: ["latin"], weight: ["500", "600"], display: "swap", variable: "--ftg-font-display" });
+const fontMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], display: "swap", variable: "--ftg-font-mono" });
+const fontVars = `${fontBody.variable} ${fontDisplay.variable} ${fontMono.variable}`;
 
 export const metadata = {
   title: "Cockpit B2B — FTG",
@@ -13,8 +22,8 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const user = await getSessionUser();
   return (
-    <html lang="fr">
-      <body className="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    <html lang="fr" className={fontVars}>
+      <body className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
         <header className="border-b border-slate-200 bg-white">
           <div className="mx-auto flex max-w-6xl items-center gap-6 px-6 py-3">
             <Link href="/" className="font-semibold text-slate-900">

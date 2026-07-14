@@ -1,56 +1,81 @@
 /**
  * FTG — Tokens de design (JC-09). SURFACE UNIQUE d habillage.
  *
- * Valeurs NEUTRES ACTUELLES (identiques au thème Tailwind d origine) — AUCUN choix de design
- * ici : l habillage (JC-08b) se fait en editant CE fichier, propage partout via le preset
- * Tailwind du ui-kit. Couleurs en canaux "R G B" pour preserver les modificateurs d opacite
- * (ex. bg-white/70). Refactor pur : rgb(var(--x) / 1) === la couleur Tailwind d origine.
+ * Habillage JC-08b — territoire « Le Cabinet » : appareil de jugement méthodique, papier chaud,
+ * encre profonde, UN SEUL accent (bleu d encre). Les valeurs ci-dessous remplacent les neutres
+ * Tailwind d origine ; les NOMS de tokens (familles Tailwind) sont conservés pour ne changer
+ * aucune classe de composant — seules les valeurs « R G B » changent, propagées partout via le
+ * preset Tailwind du ui-kit. Canaux « R G B » pour préserver les modificateurs d opacité (ex.
+ * bg-white/70).
+ *
+ * Cartographie rôle → famille (JC-08b) :
+ *   surface = white · paper/rule/ink = rampe slate (chaude) · ok = emerald · warn = amber ·
+ *   stop = rose · accent (bleu d encre) = violet ET blue, fusionnés sur l accent unique.
+ * NB « un seul accent » : blue (« en cours »/info) et violet (« alternatives »/nœud courant)
+ * partagent désormais la MÊME rampe accent → fusion de teinte assumée (cf. rapport d écart JC-08c).
+ *
+ * Polices (JC-08b) : câblées via next/font dans les layouts d app (vars --ftg-font-body /
+ * --ftg-font-display / --ftg-font-mono) et référencées par le fontFamily du preset ui-kit
+ * (font-sans / font-display / font-mono). Les noms de familles étant hachés au build par
+ * next/font, ils ne figurent pas en littéral ici.
  */
 :root {
-  /* Couleurs (canaux R G B) */
-  --ftg-color-white: 255 255 255;
-  --ftg-color-slate-50: 248 250 252;
-  --ftg-color-slate-100: 241 245 249;
-  --ftg-color-slate-200: 226 232 240;
-  --ftg-color-slate-300: 203 213 225;
-  --ftg-color-slate-400: 148 163 184;
-  --ftg-color-slate-500: 100 116 139;
-  --ftg-color-slate-600: 71 85 105;
-  --ftg-color-slate-700: 51 65 85;
-  --ftg-color-slate-800: 30 41 59;
-  --ftg-color-slate-900: 15 23 42;
-  --ftg-color-emerald-50: 236 253 245;
-  --ftg-color-emerald-200: 167 243 208;
-  --ftg-color-emerald-300: 110 231 183;
-  --ftg-color-emerald-400: 52 211 153;
-  --ftg-color-emerald-600: 5 150 105;
-  --ftg-color-emerald-700: 4 120 87;
-  --ftg-color-emerald-800: 6 95 70;
-  --ftg-color-emerald-900: 6 78 59;
-  --ftg-color-amber-50: 255 251 235;
-  --ftg-color-amber-100: 254 243 199;
-  --ftg-color-amber-200: 253 230 138;
-  --ftg-color-amber-300: 252 211 77;
-  --ftg-color-amber-400: 251 191 36;
-  --ftg-color-amber-500: 245 158 11;
-  --ftg-color-amber-700: 180 83 9;
-  --ftg-color-amber-800: 146 64 14;
-  --ftg-color-amber-900: 120 53 15;
-  --ftg-color-violet-50: 245 243 255;
-  --ftg-color-violet-200: 221 214 254;
-  --ftg-color-violet-300: 196 181 253;
-  --ftg-color-violet-700: 109 40 217;
-  --ftg-color-violet-800: 91 33 182;
-  --ftg-color-blue-50: 239 246 255;
-  --ftg-color-blue-200: 191 219 254;
-  --ftg-color-blue-300: 147 197 253;
-  --ftg-color-blue-700: 29 78 216;
-  --ftg-color-rose-50: 255 241 242;
-  --ftg-color-rose-200: 254 205 211;
-  --ftg-color-rose-300: 253 164 175;
-  --ftg-color-rose-600: 225 29 72;
-  --ftg-color-rose-700: 190 18 60;
-  --ftg-color-rose-800: 159 18 57;
+  /* Couleurs (canaux R G B) — palette « Le Cabinet » */
+  --ftg-color-white: 252 251 247;      /* surface (cartes) */
+
+  /* Neutres : rampe papier chaud → encre profonde (paper / rule / ink-2 / ink) */
+  --ftg-color-slate-50: 244 243 239;   /* paper — fond application */
+  --ftg-color-slate-100: 236 234 228;  /* paper+ (pistes, fills doux) */
+  --ftg-color-slate-200: 225 222 211;  /* rule — filets / bordures */
+  --ftg-color-slate-300: 205 201 190;  /* rule+ — bordures marquées */
+  --ftg-color-slate-400: 150 149 146;  /* encre atténuée (puces, désactivé) */
+  --ftg-color-slate-500: 92 95 104;    /* ink-2 — texte secondaire */
+  --ftg-color-slate-600: 71 74 83;     /* ink-2+ */
+  --ftg-color-slate-700: 52 55 63;     /* ink- (emphase secondaire) */
+  --ftg-color-slate-800: 38 40 47;     /* ink — corps */
+  --ftg-color-slate-900: 28 30 36;     /* ink — texte principal / titres */
+
+  /* Validé (ok) — vert forêt sourd */
+  --ftg-color-emerald-50: 228 237 232; /* ok-soft */
+  --ftg-color-emerald-200: 191 213 199;
+  --ftg-color-emerald-300: 150 186 163;
+  --ftg-color-emerald-400: 96 150 118; /* jauge de progression (« verre d eau ») */
+  --ftg-color-emerald-600: 58 112 83;
+  --ftg-color-emerald-700: 46 96 70;   /* ok — validé */
+  --ftg-color-emerald-800: 36 78 57;
+  --ftg-color-emerald-900: 28 62 45;
+
+  /* Attention (warn) — ocre */
+  --ftg-color-amber-50: 241 233 214;   /* warn-soft */
+  --ftg-color-amber-100: 236 224 195;
+  --ftg-color-amber-200: 226 208 165;
+  --ftg-color-amber-300: 212 186 128;
+  --ftg-color-amber-400: 194 160 82;
+  --ftg-color-amber-500: 170 130 44;
+  --ftg-color-amber-700: 138 100 18;   /* warn — attention */
+  --ftg-color-amber-800: 116 84 16;
+  --ftg-color-amber-900: 96 70 14;
+
+  /* Accent UNIQUE — bleu d encre (violet = accent primaire ; a le couple 700/800) */
+  --ftg-color-violet-50: 237 241 246;  /* accent-soft (fondu clair) */
+  --ftg-color-violet-200: 226 232 240; /* accent-soft */
+  --ftg-color-violet-300: 193 205 222; /* accent — filet / anneau (nœud courant) */
+  --ftg-color-violet-700: 30 58 95;    /* accent — bleu d encre */
+  --ftg-color-violet-800: 20 39 63;    /* accent-deep */
+
+  /* Accent UNIQUE (suite) — blue fusionné sur la MÊME rampe (info/« en cours » = accent) */
+  --ftg-color-blue-50: 237 241 246;    /* = accent-soft */
+  --ftg-color-blue-200: 226 232 240;   /* = accent-soft */
+  --ftg-color-blue-300: 193 205 222;   /* = accent */
+  --ftg-color-blue-700: 30 58 95;      /* = accent */
+
+  /* Bloqué (stop) — rouge sourd */
+  --ftg-color-rose-50: 240 225 225;    /* stop-soft */
+  --ftg-color-rose-200: 224 190 190;
+  --ftg-color-rose-300: 208 160 160;   /* stop — filet */
+  --ftg-color-rose-600: 150 60 60;
+  --ftg-color-rose-700: 126 44 44;     /* stop — bloqué */
+  --ftg-color-rose-800: 106 36 36;
 
   /* Rayons (valeurs Tailwind actuelles) */
   --ftg-radius-DEFAULT: 0.25rem;

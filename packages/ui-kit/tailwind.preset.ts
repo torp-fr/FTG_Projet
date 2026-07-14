@@ -6,8 +6,13 @@ import type { Config } from "tailwindcss";
  * token porte la valeur Tailwind d'origine, donc `rgb(var(--x) / 1)` === la couleur d'origine.
  * Les canaux « R G B » préservent les modificateurs d'opacité (ex. bg-white/70).
  *
- * Effet : l'habillage (JC-08b) = éditer tokens.css en UN point, propagé aux 3 apps. Aucun choix
- * de design ici (valeurs neutres actuelles). Les apps activent ce preset via `presets: [...]`.
+ * Effet : l'habillage (JC-08b) = éditer tokens.css en UN point, propagé aux 3 apps. Les apps
+ * activent ce preset via `presets: [...]`.
+ *
+ * Polices (JC-08b) : les familles sont chargées par next/font dans les layouts d'app, qui posent
+ * les vars `--ftg-font-{body,display,mono}`. Le fontFamily ci-dessous les référence (utilitaires
+ * font-sans / font-display / font-mono). Le `var(--x, fallback)` interne garantit un rendu system
+ * intact pour une app qui ne charge pas encore les polices (ex. admin).
  */
 const shade = (fam: string, s: string) => `rgb(var(--ftg-color-${fam}-${s}) / <alpha-value>)`;
 const family = (fam: string, shades: string[]): Record<string, string> =>
@@ -30,6 +35,14 @@ const preset: Partial<Config> = {
         md: "var(--ftg-radius-md)",
         lg: "var(--ftg-radius-lg)",
         full: "var(--ftg-radius-full)",
+      },
+      fontFamily: {
+        // corps / UI — IBM Plex Sans (défaut : Tailwind applique fontFamily.sans à <html>)
+        sans: ["var(--ftg-font-body, ui-sans-serif)", "ui-sans-serif", "system-ui", "sans-serif"],
+        // display — Newsreader (serif éditoriale) ; appliqué aux rôles display via `font-display`
+        display: ["var(--ftg-font-display, ui-serif)", "ui-serif", "Georgia", "Cambria", "serif"],
+        // mesure — IBM Plex Mono ; appliqué aux eyebrows/labels/méta via `font-mono`
+        mono: ["var(--ftg-font-mono, ui-monospace)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
     },
   },

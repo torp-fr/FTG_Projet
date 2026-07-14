@@ -11,30 +11,33 @@ export type Verdict =
   | "alternatives_detected"
   | "facts_and_options";
 
+// JC-08c — badge de verdict en OUTLINE : bordure + texte à la couleur de l'état, fond
+// transparent (posé par VerdictBadge). Le vert reste réservé au verdict « validé » ;
+// « alternatives détectées » garde l'accent (bleu d'encre = violet). Aucune 2e teinte.
 export const VERDICTS: Record<Verdict, { label: string; cls: string }> = {
   validated: {
     label: "Validé",
-    cls: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    cls: "border-emerald-300 text-emerald-700",
   },
   validated_with_reserves: {
     label: "Validé avec réserves",
-    cls: "bg-amber-50 text-amber-700 border-amber-200",
+    cls: "border-amber-300 text-amber-700",
   },
   conditions_not_met: {
     label: "Conditions non réunies",
-    cls: "bg-slate-100 text-slate-600 border-slate-300",
+    cls: "border-slate-300 text-slate-600",
   },
   alternatives_detected: {
     label: "Alternatives détectées",
-    cls: "bg-violet-50 text-violet-700 border-violet-200",
+    cls: "border-violet-300 text-violet-700",
   },
   facts_and_options: {
     label: "Faits & options",
-    cls: "bg-slate-100 text-slate-600 border-slate-300",
+    cls: "border-slate-300 text-slate-600",
   },
 };
 
 export function verdictMeta(v: string | null | undefined) {
   if (v && v in VERDICTS) return VERDICTS[v as Verdict];
-  return { label: "—", cls: "bg-slate-50 text-slate-400 border-slate-200" };
+  return { label: "—", cls: "border-slate-200 text-slate-400" };
 }

@@ -30,7 +30,7 @@ export default async function CohortPage() {
     <div className="space-y-6">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Cohorte</h1>
+          <h1 className="font-display text-xl font-semibold text-slate-900">Cohorte</h1>
           <p className="text-sm text-slate-500">{orgName}</p>
         </div>
         <a

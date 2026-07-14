@@ -13,7 +13,7 @@ export function AgentBoard({ agents }: { agents: AgentView[] }) {
             <span className="font-medium text-slate-900">{a.persona}</span>
             <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] text-emerald-700">Actif</span>
           </div>
-          <div className="text-xs text-slate-400">{a.code}</div>
+          <div className="font-mono text-xs text-slate-400">{a.code}</div>
           <div className="mt-1 text-xs text-slate-500">
             {a.runsCount > 0 ? `${a.runsCount} exécution(s) · dernier run : ${a.latestRunStatus ?? "—"}` : "en veille"}
           </div>

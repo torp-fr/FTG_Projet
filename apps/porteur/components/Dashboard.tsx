@@ -13,7 +13,7 @@ function Stub({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5">
       <div className="mb-2 flex items-baseline justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
+        <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
         <span className="text-xs text-slate-400">v1 — à enrichir</span>
       </div>
       <div className="text-sm text-slate-500">{children}</div>
@@ -32,7 +32,7 @@ export async function Dashboard({ projectId }: { projectId: string }) {
     <div className="space-y-6">
       {/* En-tête projet */}
       <div>
-        <h1 className="text-xl font-semibold text-slate-900">{project.name}</h1>
+        <h1 className="font-display text-xl font-semibold text-slate-900">{project.name}</h1>
         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
           <span>{project.ownerName}</span>
           <span>Segment : {project.segment ?? "—"}</span>
@@ -95,7 +95,7 @@ export async function Dashboard({ projectId }: { projectId: string }) {
             {gates.map((g) => (
               <div key={g.code} className="rounded-md border border-slate-100 p-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-medium text-slate-900">{g.code}</span>
+                  <span className="font-mono font-medium text-slate-900">{g.code}</span>
                   <VerdictBadge verdict={g.verdict} />
                   <span className="ml-auto text-xs text-slate-400">
                     {Object.entries(g.computedScores).map(([k, v]) => `${k} ${typeof v === "number" ? Math.round(v * 10) / 10 : v}`).join(" · ")}
@@ -103,7 +103,7 @@ export async function Dashboard({ projectId }: { projectId: string }) {
                 </div>
                 {g.reserves.length > 0 ? (
                   <div className="mt-2">
-                    <div className="text-xs font-medium uppercase text-slate-400">Réserves ouvertes</div>
+                    <div className="font-mono text-xs font-medium uppercase text-slate-400">Réserves ouvertes</div>
                     <ul className="mt-1 space-y-1 text-sm text-slate-600">
                       {g.reserves.map((r, i) => (
                         <li key={i}>{r.vector ? <span className="font-medium text-slate-700">{r.vector} — </span> : null}{r.detail}</li>
@@ -113,7 +113,7 @@ export async function Dashboard({ projectId }: { projectId: string }) {
                 ) : null}
                 {g.solutionPaths.length > 0 ? (
                   <div className="mt-2">
-                    <div className="text-xs font-medium uppercase text-slate-400">Options (faits + chemins, pas un jugement)</div>
+                    <div className="font-mono text-xs font-medium uppercase text-slate-400">Options (faits + chemins, pas un jugement)</div>
                     <ul className="mt-1 space-y-1 text-sm text-slate-600">
                       {g.solutionPaths.map((sp, i) => (
                         <li key={i}>

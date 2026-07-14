@@ -12,9 +12,11 @@ const AMBITION_LABEL: Record<string, string> = {
   scale: "Scale",
 };
 
+// JC-08c — même sémantique que le ui-kit : complétude (done) = accent (bleu d'encre = violet),
+// en cours = warn (ambre). Le vert n'est plus une couleur d'étape (réservé au verdict « validé »).
 const STEP_CLS: Record<PhaseStep["state"], string> = {
-  done: "border-emerald-300 bg-emerald-50 text-emerald-700",
-  in_progress: "border-blue-300 bg-blue-50 text-blue-700",
+  done: "border-violet-300 bg-violet-50 text-violet-700",
+  in_progress: "border-amber-300 bg-amber-50 text-amber-700",
   available: "border-slate-300 bg-white text-slate-600",
   locked: "border-slate-200 bg-slate-50 text-slate-400",
 };
@@ -34,7 +36,7 @@ export default async function FichePage({ params }: { params: Promise<{ id: stri
     <div className="space-y-6">
       <div>
         <Link href="/" className="text-sm text-slate-500 hover:underline">← Cohorte</Link>
-        <h1 className="mt-1 text-xl font-semibold text-slate-900">{p.name}</h1>
+        <h1 className="mt-1 font-display text-xl font-semibold text-slate-900">{p.name}</h1>
         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
           <span>{p.ownerName}</span>
           <span>Segment : {p.segment ?? "—"}</span>
@@ -49,9 +51,9 @@ export default async function FichePage({ params }: { params: Promise<{ id: stri
         <div className="flex gap-2 overflow-x-auto pb-1">
           {p.phases.map((ph) => (
             <div key={ph.code} title={ph.reason ?? STEP_LABEL[ph.state]} className={`flex min-w-[92px] flex-col rounded-md border px-2.5 py-2 ${STEP_CLS[ph.state]}`}>
-              <span className="text-xs font-semibold">{ph.code}</span>
+              <span className="font-mono text-xs font-semibold">{ph.code}</span>
               <span className="truncate text-[11px] leading-tight">{ph.name}</span>
-              <span className="mt-1 text-[10px] uppercase tracking-wide opacity-70">{STEP_LABEL[ph.state]}</span>
+              <span className="mt-1 font-mono text-[10px] uppercase tracking-wide opacity-70">{STEP_LABEL[ph.state]}</span>
             </div>
           ))}
         </div>

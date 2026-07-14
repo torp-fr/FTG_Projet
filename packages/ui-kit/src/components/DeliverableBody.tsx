@@ -28,7 +28,7 @@ function MatchReport({ data }: { data: Record<string, unknown> }) {
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <span className="text-sm text-slate-500">Composite V3</span>
-        <span className="text-2xl font-semibold text-slate-900">{composite ?? "—"}</span>
+        <span className="font-display text-2xl font-semibold text-slate-900">{composite ?? "—"}</span>
       </div>
       <div className="space-y-2">
         {Object.entries(scores).map(([dim, v]) => (
@@ -37,7 +37,7 @@ function MatchReport({ data }: { data: Record<string, unknown> }) {
       </div>
       {gaps.length > 0 ? (
         <div>
-          <div className="mb-1 text-xs font-medium uppercase text-slate-400">Écarts identifiés</div>
+          <div className="mb-1 font-mono text-xs font-medium uppercase text-slate-400">Écarts identifiés</div>
           <ul className="space-y-1 text-sm text-slate-600">
             {gaps.map((g, i) => (
               <li key={i}>
@@ -59,14 +59,14 @@ function SelectionBrief({ data }: { data: Record<string, unknown> }) {
     <div className="space-y-4">
       {selection.chosen ? (
         <div>
-          <div className="text-xs font-medium uppercase text-slate-400">Idée retenue</div>
+          <div className="font-mono text-xs font-medium uppercase text-slate-400">Idée retenue</div>
           <div className="font-medium text-slate-900">{selection.chosen}</div>
           {selection.rationale ? <p className="mt-1 text-sm text-slate-600">{selection.rationale}</p> : null}
         </div>
       ) : null}
       {selection.top3 && selection.top3.length > 0 ? (
         <div>
-          <div className="mb-1 text-xs font-medium uppercase text-slate-400">Top 3 comparé</div>
+          <div className="mb-1 font-mono text-xs font-medium uppercase text-slate-400">Top 3 comparé</div>
           <ul className="space-y-1 text-sm text-slate-600">
             {selection.top3.map((t, i) => (
               <li key={i} className="flex gap-2">
@@ -81,7 +81,7 @@ function SelectionBrief({ data }: { data: Record<string, unknown> }) {
       ) : null}
       {journal.length > 0 ? (
         <div>
-          <div className="mb-1 text-xs font-medium uppercase text-slate-400">Journal d’entonnoir</div>
+          <div className="mb-1 font-mono text-xs font-medium uppercase text-slate-400">Journal d’entonnoir</div>
           <ul className="space-y-1 text-sm text-slate-600">
             {journal.map((j, i) => (
               <li key={i}>

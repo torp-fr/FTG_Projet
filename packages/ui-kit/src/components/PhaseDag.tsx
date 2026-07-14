@@ -1,11 +1,14 @@
 import type { PhaseNode } from "../types";
 
+// JC-08c — complétude (done/forced) = accent (bleu d'encre = violet) ; progression active
+// (en cours / attentes) = warn (ambre) ; recommandé garde l'accent. Le vert n'est plus une
+// couleur de jalon (réservé au verdict « validé »).
 const JALON_STYLE: Record<string, { label: string; cls: string }> = {
-  done: { label: "Fait", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  forced: { label: "Forcé", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  in_progress: { label: "En cours", cls: "bg-blue-50 text-blue-700 border-blue-200" },
-  awaiting_proof: { label: "Preuve attendue", cls: "bg-blue-50 text-blue-700 border-blue-200" },
-  awaiting_review: { label: "Revue attendue", cls: "bg-blue-50 text-blue-700 border-blue-200" },
+  done: { label: "Fait", cls: "bg-violet-50 text-violet-700 border-violet-300" },
+  forced: { label: "Forcé", cls: "bg-violet-50 text-violet-700 border-violet-300" },
+  in_progress: { label: "En cours", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  awaiting_proof: { label: "Preuve attendue", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  awaiting_review: { label: "Revue attendue", cls: "bg-amber-50 text-amber-700 border-amber-200" },
   recommended: { label: "Recommandé", cls: "bg-violet-50 text-violet-700 border-violet-300" },
   available: { label: "Disponible", cls: "bg-white text-slate-600 border-slate-300" },
   locked: { label: "Verrouillé", cls: "bg-slate-50 text-slate-400 border-slate-200" },
@@ -13,8 +16,8 @@ const JALON_STYLE: Record<string, { label: string; cls: string }> = {
 const jalonStyle = (s: string) => JALON_STYLE[s] ?? JALON_STYLE.locked;
 
 const PHASE_HEADER: Record<PhaseNode["state"], string> = {
-  done: "text-emerald-700",
-  in_progress: "text-blue-700",
+  done: "text-violet-700",
+  in_progress: "text-amber-700",
   available: "text-slate-700",
   locked: "text-slate-400",
 };
@@ -31,8 +34,8 @@ export function PhaseDag({ phases }: { phases: PhaseNode[] }) {
       {phases.map((ph) => (
         <div key={ph.code} className="min-w-[152px] shrink-0 rounded-lg border border-slate-200 bg-white p-3">
           <div className="flex items-baseline justify-between">
-            <span className={`text-sm font-semibold ${PHASE_HEADER[ph.state]}`}>{ph.code}</span>
-            <span className="text-[10px] uppercase tracking-wide text-slate-400">{PHASE_TAG[ph.state]}</span>
+            <span className={`font-mono text-sm font-semibold ${PHASE_HEADER[ph.state]}`}>{ph.code}</span>
+            <span className="font-mono text-[10px] uppercase tracking-wide text-slate-400">{PHASE_TAG[ph.state]}</span>
           </div>
           <div className="mb-2 truncate text-xs text-slate-500" title={ph.name}>{ph.name}</div>
           {ph.jalons.length === 0 ? (
@@ -47,9 +50,9 @@ export function PhaseDag({ phases }: { phases: PhaseNode[] }) {
                   <li
                     key={j.code}
                     title={j.reason ?? st.label}
-                    className={`flex items-center justify-between rounded border px-2 py-1 text-[11px] ${st.cls} ${j.recommended ? "ring-1 ring-violet-300" : ""}`}
+                    className={`flex items-center justify-between rounded border px-2 py-1 text-[11px] ${st.cls} ${j.recommended ? "ring-1 ring-amber-300" : ""}`}
                   >
-                    <span className="font-medium">{j.code.split("-")[1] ?? j.code}</span>
+                    <span className="font-mono font-medium">{j.code.split("-")[1] ?? j.code}</span>
                     <span className="opacity-80">
                       {st.label}
                       {typeof j.quality === "number" ? ` · ${j.quality}` : ""}

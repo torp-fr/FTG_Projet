@@ -5,7 +5,7 @@ export function Section({ title, children, note, id }: { title: string; children
   return (
     <section id={id} className="rounded-lg border border-slate-200 bg-white p-5">
       <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
+        <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
         {note ? <span className="text-xs text-slate-400">{note}</span> : null}
       </div>
       {children}
